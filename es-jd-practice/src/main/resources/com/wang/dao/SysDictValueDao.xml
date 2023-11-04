@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wang.dao.SysDictValueDao">
+    <resultMap id="BaseResultMap" type="com.wang.pojo.oracle.SysDictValuePojo">
+        <id column="dictitem" jdbcType="INTEGER" property="dictitem" />
+        <id column="subitem" jdbcType="VARCHAR" property="subitem" />
+        <result column="subitemname" jdbcType="VARCHAR" property="subitemname" />
+        <result column="macro" jdbcType="VARCHAR" property="macro" />
+    </resultMap>
+
+    <select id="getSysDictValue" resultMap="BaseResultMap" parameterType="com.wang.pojo.oracle.SysDictValuePojo">
+        select * from sys_dictvalue where 1=1
+        <if test="item.dictitem!=null">
+            and dictitem=#{item.dictitem}
+        </if>
+        <if test="item.subitem!=null and item.subitem!=''">
+            and subitem=#{item.subitem}
+        </if>
+        <if test="item.subitemname!=null and item.subitem!=''">
+            and item.subitemname=#{item.subitemname}
+        </if>
+    </select>
+
+
+
+
+</mapper>
