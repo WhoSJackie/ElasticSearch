@@ -1,4 +1,0 @@
-com\wang\fanout\service\EmailService.class
-com\wang\fanout\RabbitmqFanoutConsumerApplication.class
-com\wang\fanout\service\WechatService.class
-com\wang\fanout\service\SmsService.class

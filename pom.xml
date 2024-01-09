@@ -16,11 +16,12 @@
     <version>1.0-SNAPSHOT</version>
 
     <modules>
-        <module>es-common</module>
-        <module>es-jd-practice</module>
-        <module>rabbitmq-simpledemo</module>
-        <module>rabbitmq-fanout-producer</module>
-        <module>rabbitmq-fanout-consumer</module>
+        <module>wj-project-common</module>
+        <module>wj-project-service</module>
+<!--        <module>rabbitmq-simpledemo</module>-->
+<!--        <module>rabbitmq-fanout-producer</module>-->
+<!--        <module>rabbitmq-fanout-consumer</module>-->
+        <module>wj-project-web</module>
     </modules>
 
     <properties>
@@ -51,7 +52,13 @@
 
             <dependency>
                 <groupId>com.wang</groupId>
-                <artifactId>es-common</artifactId>
+                <artifactId>wj-project-common</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.wang</groupId>
+                <artifactId>wj-project-service</artifactId>
                 <version>0.0.1-SNAPSHOT</version>
             </dependency>
 
@@ -126,8 +133,6 @@
                 <artifactId>dom4j</artifactId>
                 <version>2.1.4</version>
             </dependency>
-
-
 
         </dependencies>
     </dependencyManagement>

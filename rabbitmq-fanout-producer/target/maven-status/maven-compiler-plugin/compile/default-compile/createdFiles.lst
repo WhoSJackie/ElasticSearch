@@ -1,3 +1,0 @@
-com\wang\fanout\config\FanoutMQConfig.class
-com\wang\fanout\RabbitmqFanoutProducerApplication.class
-com\wang\fanout\service\OrderService.class

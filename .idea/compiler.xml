@@ -7,22 +7,26 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="rabbitmq-simpledemo" />
-        <module name="rabbitmq-fanout-producer" />
-        <module name="rabbitmq-fanout-consumer" />
-        <module name="es-common" />
-        <module name="es-jd-practice" />
+        <module name="wj-project-common" />
+        <module name="wj-project-service" />
+        <module name="wj-project-web" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="rabbitmq-fanout-consumer" target="1.8" />
+      <module name="rabbitmq-fanout-producer" target="1.8" />
+      <module name="rabbitmq-simpledemo" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="ElasticSearch" options="-parameters" />
-      <module name="es-common" options="-parameters" />
-      <module name="es-jd-practice" options="-parameters" />
       <module name="rabbitmq-fanout-consumer" options="-parameters" />
       <module name="rabbitmq-fanout-producer" options="-parameters" />
       <module name="rabbitmq-simpledemo" options="-parameters" />
+      <module name="wj-project-common" options="-parameters" />
+      <module name="wj-project-service" options="-parameters" />
+      <module name="wj-project-web" options="-parameters" />
     </option>
   </component>
 </project>
