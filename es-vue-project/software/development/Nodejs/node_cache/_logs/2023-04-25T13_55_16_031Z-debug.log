@@ -1,0 +1,24 @@
+0 info it worked if it ends with ok
+1 verbose cli [
+1 verbose cli   'D:\\software\\development\\node.exe',
+1 verbose cli   'D:\\software\\development\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'audit',
+1 verbose cli   'fix'
+1 verbose cli ]
+2 info using npm@6.14.11
+3 info using node@v14.16.0
+4 verbose npm-session 1470ea10aa220abf
+5 verbose stack Error: Errors were found in your package-lock.json, run  npm install  to fix them.
+5 verbose stack     Missing: karma-phantomjs-launcher@^1.0.2
+5 verbose stack     Missing: phantomjs-prebuilt@^2.1.14
+5 verbose stack     at D:\software\development\node_modules\npm\lib\audit.js:184:19
+6 verbose cwd D:\software\CodeLibrary\es-vue-project
+7 verbose Windows_NT 10.0.19045
+8 verbose argv "D:\\software\\development\\node.exe" "D:\\software\\development\\node_modules\\npm\\bin\\npm-cli.js" "audit" "fix"
+9 verbose node v14.16.0
+10 verbose npm  v6.14.11
+11 error code ELOCKVERIFY
+12 error Errors were found in your package-lock.json, run  npm install  to fix them.
+12 error     Missing: karma-phantomjs-launcher@^1.0.2
+12 error     Missing: phantomjs-prebuilt@^2.1.14
+13 verbose exit [ 1, true ]

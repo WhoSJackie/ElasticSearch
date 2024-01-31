@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wang.business.mysqldao.RoleDao">
+    <resultMap id="BaseResultMap" type="com.wang.business.pojo.mysql.Role">
+        <id column="id" jdbcType="BIGINT" property="id" />
+        <result column="role_name" jdbcType="VARCHAR" property="roleName" />
+        <result column="status" jdbcType="INTEGER" property="status" />
+    </resultMap>
+
+    <select id="queryPojo" resultMap="BaseResultMap">
+        select * from t_role t where t.status=1
+        <if test="id!=null">
+         and t.id=#{id}
+        </if>
+    </select>
+
+
+</mapper>
