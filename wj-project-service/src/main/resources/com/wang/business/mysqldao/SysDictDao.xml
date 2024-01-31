@@ -12,6 +12,20 @@
         insert into sys_dict_item(dict_item,subitem,subitem_name) values (#{item.dictItem},#{item.subitem},#{item.subitemName});
     </insert>
 
-
+    <sql id="Base_Column_List">
+        id,subitem,dict_item,subitem_name
+    </sql>
+    <select id="querySysDictValue" resultMap="BaseResultMap" parameterType="com.wang.business.pojo.mysql.SysDictItemPojo">
+        select * from sys_dict_item where 1=1
+        <if test="item.dictitem!=null">
+            and dict_item=#{item.dictItem}
+        </if>
+        <if test="item.subitem!=null and item.subitem!=''">
+            and subitem=#{item.subitem}
+        </if>
+        <if test="item.subitemname!=null and item.subitem!=''">
+            and subitem_name=#{item.subitemName}
+        </if>
+    </select>
 
 </mapper>

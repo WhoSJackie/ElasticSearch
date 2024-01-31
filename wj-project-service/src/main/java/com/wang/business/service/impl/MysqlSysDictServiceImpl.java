@@ -6,6 +6,8 @@ import com.wang.business.service.SysDictService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class MysqlSysDictServiceImpl implements SysDictService {
 
@@ -16,4 +18,14 @@ public class MysqlSysDictServiceImpl implements SysDictService {
     public Boolean insertDict(SysDictItemPojo pojo) {
         return sysDictDao.insert(pojo);
     }
+
+    @Override
+    public List<SysDictItemPojo> queryItem(SysDictItemPojo sysDictItemPojo) {
+        if (sysDictItemPojo==null){
+            sysDictItemPojo = new SysDictItemPojo();
+        }
+        return sysDictDao.querySysDictValue(sysDictItemPojo);
+    }
+
+
 }

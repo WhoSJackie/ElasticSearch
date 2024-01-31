@@ -1,7 +1,7 @@
 package com.wang.common.config;
 
 import com.alibaba.druid.pool.DruidDataSource;
-import com.wang.common.Constants;
+import com.wang.common.constants.Constants;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;

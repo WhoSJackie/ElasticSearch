@@ -1,4 +1,4 @@
-package com.wang.common;
+package com.wang.common.constants;
 
 public class Constants {
 

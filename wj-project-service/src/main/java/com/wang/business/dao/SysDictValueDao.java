@@ -1,5 +1,6 @@
 package com.wang.business.dao;
 
+import com.wang.business.pojo.mysql.SysDictItemPojo;
 import com.wang.business.pojo.oracle.SysDictValuePojo;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;

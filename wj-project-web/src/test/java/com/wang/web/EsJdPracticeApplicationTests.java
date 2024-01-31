@@ -1,10 +1,11 @@
 package com.wang.web;
 
+import com.wang.business.pojo.TxtInsertPojo;
+import com.wang.business.pojo.mysql.Admin;
+import com.wang.business.pojo.mysql.Role;
 import com.wang.business.pojo.mysql.SysDictItemPojo;
 import com.wang.business.pojo.oracle.SysDictValuePojo;
-import com.wang.business.service.OracleDictService;
-import com.wang.business.service.SysDictService;
-import com.wang.business.service.TxtInsertService;
+import com.wang.business.service.*;
 import com.wang.common.utils.RedisUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,12 @@ class EsJdPracticeApplicationTests {
     @Autowired
     RedisUtil redisUtil;
 
+    @Autowired
+    AdminService adminService;
+
+    @Autowired
+    RoleService roleService;
+
     @Test
     void contextLoads() {
     }
@@ -35,6 +42,7 @@ class EsJdPracticeApplicationTests {
     public void testInsertTxt(){
         // TxtInsertPojo pojo = new TxtInsertPojo("h11000","H11000_QZZCXJRZQ");
         System.out.println(txtInsertService.insertTxtLine());
+
     }
 
     @Test
@@ -43,7 +51,15 @@ class EsJdPracticeApplicationTests {
         pojo.setDictItem(1);
         pojo.setSubitem("01");
         pojo.setSubitemName("test");
-        System.out.println(sysDictService.insertDict(pojo));
+        List<SysDictItemPojo> sysDictItemPojos = sysDictService.queryItem(pojo);
+        if (sysDictItemPojos.size()<=0){
+            System.out.println(sysDictService.insertDict(pojo));
+        }
+        // 查询列表
+        List<SysDictItemPojo> sysDictItemPojoList = sysDictService.queryItem(null);
+        for (SysDictItemPojo itemPojo : sysDictItemPojoList) {
+            System.out.println(itemPojo);
+        }
     }
 
     @Test
@@ -61,6 +77,17 @@ class EsJdPracticeApplicationTests {
         redisUtil.set("test01","hello01");
         System.out.println(redisUtil.get("test01"));
     }
+
+    @Test
+    public void queryPojo(){
+        List<Admin> adminList = adminService.queryItemList();
+        for (Admin admin : adminList) {
+            System.out.println(admin.toString());
+        }
+        Role role = roleService.queryItem(2L);
+        System.out.println(role.toString());
+    }
+
 
 
 
