@@ -1,8 +1,20 @@
 package com.wang.web.utils;
 
 
-public class ResUtil {
+import com.wang.common.enums.ResCodeEnum;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class ResUtil<T> {
 
+    String message;
+
+    T data;
+
+    int code;
 
 }

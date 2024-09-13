@@ -8,5 +8,5 @@ public interface OracleDictService {
 
     List<SysDictValuePojo> queryDictItem(SysDictValuePojo pojo);
 
-
+    int insertDictValue(String items,String itemName);
 }

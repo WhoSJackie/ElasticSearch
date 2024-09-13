@@ -8,6 +8,13 @@
         <result column="macro" jdbcType="VARCHAR" property="macro" />
     </resultMap>
 
+    <sql id="val_cols">
+        dictitem,subitem,subitemname,macro
+    </sql>
+    <sql id="index_cols">
+        dictitem,itemname,loadlevel,validlen,dispflag,ctrlflag,dictgroupid,usersetflag
+    </sql>
+
     <select id="getSysDictValue" resultMap="BaseResultMap" parameterType="com.wang.business.pojo.oracle.SysDictValuePojo">
         select * from sys_dictvalue where 1=1
         <if test="item.dictitem!=null">
@@ -21,7 +28,39 @@
         </if>
     </select>
 
+    <select id="getLatestDictItem" resultType="integer">
+        select dictitem from sys_dictindex t where rownum=1 order by dictitem desc
+    </select>
 
+    <insert id="insertDictValue">
+        insert into sys_dictvalue(
+           <include refid="val_cols"></include>
+        )
+        values
+            (
+              #{item.dictitem,jdbcType=INTEGER},
+              #{item.subitem,jdbcType=VARCHAR},
+              #{item.subitemname,jdbcType=VARCHAR},
+              #{item.macro,jdbcType=VARCHAR}
+            )
+    </insert>
+
+    <insert id="insertDictIndex">
+        insert into sys_dictindex(
+        <include refid="index_cols"></include>
+        )
+        values
+        (
+        #{item.dictitem,jdbcType=INTEGER},
+        #{item.itemname,jdbcType=VARCHAR},
+        #{item.loadlevel,jdbcType=VARCHAR},
+        #{item.validlen,jdbcType=INTEGER},
+        #{item.dispflag,jdbcType=VARCHAR},
+        #{item.ctrlflag,jdbcType=VARCHAR},
+        #{item.dictgroupid,jdbcType=VARCHAR},
+        #{item.usersetflag,jdbcType=VARCHAR}
+        )
+    </insert>
 
 
 </mapper>

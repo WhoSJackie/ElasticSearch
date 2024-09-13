@@ -34,6 +34,9 @@ class EsJdPracticeApplicationTests {
     @Autowired
     RoleService roleService;
 
+    @Autowired
+    RuleItemService ruleItemService;
+
     @Test
     void contextLoads() {
     }
@@ -86,6 +89,30 @@ class EsJdPracticeApplicationTests {
         }
         Role role = roleService.queryItem(2L);
         System.out.println(role.toString());
+    }
+
+    @Test
+    /**
+     * cisp002校验规则非空核对工具
+     */
+    public void testRuleItem(){
+        List<String> list = ruleItemService.nullableRuleVerify("C:\\Users\\jiami\\Desktop\\table.docx","B6049");
+        if (list.size()==0) {
+            System.out.println("校验通过!");
+            return;
+        }
+        for (String s : list) {
+            System.out.println(s);
+        }
+    }
+
+    @Test
+    /**
+     * dictvalue简单插入
+     */
+    public void insertDictValue(){
+        String item  = "一年以内(含一年)贷款利率，一至五年(含五年)贷款利率，五年以上贷款基准利率，五年以下(含五年)个人住房公积金贷款，五年以上个人住房公积金贷款，1年期贷款市场报价利率，5年期贷款市场报价利率，隔夜回购定盘利率FR001，7天回购定盘利率FRO07，SHIBOR-1W-120，SHIBOR-1W-750，SHIBOR-1W-1250，SHIBOR-3M，SHIBOR-3M-5，SHIBOR-3M-10，SHIBOR-3M-120，SHIBOR-6M-5，SHIBOR-6M-7，SHIBOR-6M-20，SHIBOR-1Y-5，SHIBOR-1Y-10，SHIBOR-1Y-15，SHIBOR-1Y-20，SHIBOR-1Y-30，LIBOR-USD-3M，LIBOR-USD-6M，其他-信托公司自定义";
+        System.out.println(oracleDictService.insertDictValue(item,""));
     }
 
 

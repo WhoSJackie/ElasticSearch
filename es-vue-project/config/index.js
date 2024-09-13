@@ -11,17 +11,17 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-        '/eshandler/':{
+        '/api/':{
             target:'http://127.0.0.1:8089',
             changeOrigin:true,
-          // pathRewrite:{
-          //     '^/api':'' // 路径重写，使用"/api"代替target【跨域时，将"/api"替换为""】
-          // }
+            pathRewrite:{
+               '^/api':'' // 路径重写，使用"/api"代替target【跨域时，将"/api"替换为""】
+            }
         }
     },
 
     // Various Dev Server settings
-    host: 'localhost', // can be overwritten by process.env.HOST
+    host: '127.0.0.1', // can be overwritten by process.env.HOST
     port: 8001, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: true,
     errorOverlay: true,

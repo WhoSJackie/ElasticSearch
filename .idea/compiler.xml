@@ -24,9 +24,9 @@
       <module name="rabbitmq-fanout-consumer" options="-parameters" />
       <module name="rabbitmq-fanout-producer" options="-parameters" />
       <module name="rabbitmq-simpledemo" options="-parameters" />
-      <module name="wj-project-common" options="-parameters" />
-      <module name="wj-project-service" options="-parameters" />
-      <module name="wj-project-web" options="-parameters" />
+      <module name="wj-project-common" options="" />
+      <module name="wj-project-service" options="" />
+      <module name="wj-project-web" options="" />
     </option>
   </component>
 </project>

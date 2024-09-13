@@ -158,7 +158,7 @@ export default {
       var pageNo = this.pageNo;
       var pageSize = this.pageSize;
       console.log(keyword);
-      this.$axios.get('/eshandler/queryContent/'+keyword+'/'+pageNo+'/'+pageSize).then(response=>{
+      this.$axios.get('/api/eshandler/queryContent/'+keyword+'/'+pageNo+'/'+pageSize).then(response=>{
         console.log(response.data);
         console.log(response.data.content);
         this.result=response.data.content;
@@ -185,5 +185,5 @@ export default {
 </script>
 
 <style scoped>
-@import "../../../static/css/style.css";
+@import "../../static/css/style.css";
 </style>

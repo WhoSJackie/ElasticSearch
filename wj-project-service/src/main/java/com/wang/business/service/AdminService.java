@@ -10,4 +10,6 @@ public interface AdminService extends IService<Admin> {
 
     List<Admin> queryItemList();
 
+    void addOnlineAdmin(Admin admin,Long expireSecond);
+
 }
