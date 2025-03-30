@@ -121,7 +121,7 @@
 <script>
   import {login, localLogin, localRegister, getWechatOrCodeTicket, getUserLoginStatus} from "@/api/user";
   import { Loading } from 'element-ui';
-  // import {setCookie} from "@/utils/cookieUtils";
+  import {setCookie} from "@/utils/cookieUtils";
   import {mapMutations} from "vuex";
   export default {
     name: "share",
@@ -155,10 +155,10 @@
         // 登录类别
         loginType: {
           password: false,
-          gitee: true,
-          github: true,
-          qq: true,
-          wechat: true
+          gitee: false,
+          github: false,
+          qq: false,
+          wechat: false
         },
         loginRules: {
           userName: [
@@ -243,7 +243,7 @@
           console.log("开始校验", valid)
           if(!valid) {
             console.log('校验失败')
-            return;
+
           } else {
             let params = {};
             params.userName = this.loginForm.userName;
@@ -269,7 +269,7 @@
         this.$refs.registerForm.validate((valid) => {
           if(!valid) {
             console.log('校验失败')
-            return;
+
           } else {
             let passWord = this.registerForm.password;
             let passWord2 = this.registerForm.password2;
@@ -374,7 +374,7 @@
           text: '加载中……',
           background: 'rgba(0, 0, 0, 0.7)'
         })
-        var params = new URLSearchParams();
+        let params = new URLSearchParams();
         params.append("source", source);
         login(params).then(response => {
           if (response.code == this.$ECode.SUCCESS) {

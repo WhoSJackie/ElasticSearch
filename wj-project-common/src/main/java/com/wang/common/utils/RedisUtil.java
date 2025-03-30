@@ -2,6 +2,8 @@ package com.wang.common.utils;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.listener.KeyExpirationEventMessageListener;
+import org.springframework.data.redis.listener.KeyspaceEventMessageListener;
 import org.springframework.stereotype.Component;
 
 import java.util.concurrent.TimeUnit;
@@ -42,6 +44,8 @@ public class RedisUtil {
     public void setExTime(String key, String value, long time, TimeUnit unit){
         redisTemplate.opsForValue().set(key,value,time,unit);
     }
+
+
 
 
 

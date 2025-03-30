@@ -1,7 +1,7 @@
 package com.wang.web.controller;
 
-import com.wang.business.pojo.QueryJdContentRes;
-import com.wang.business.service.JdContentService;
+import com.wang.common.object.entity.test.QueryJdContentRes;
+import com.wang.business.service.test.JdContentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

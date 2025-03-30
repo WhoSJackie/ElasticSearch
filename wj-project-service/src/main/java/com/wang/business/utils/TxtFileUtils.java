@@ -1,6 +1,6 @@
 package com.wang.business.utils;
 
-import com.wang.business.pojo.TxtInsertPojo;
+import com.wang.common.object.entity.test.TxtInsertPojo;
 
 import java.io.BufferedReader;
 import java.io.File;

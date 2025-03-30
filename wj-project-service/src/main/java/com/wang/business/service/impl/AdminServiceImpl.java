@@ -2,8 +2,8 @@ package com.wang.business.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.wang.business.mysqldao.AdminDao;
-import com.wang.business.pojo.OnlineAdmin;
-import com.wang.business.pojo.mysql.Admin;
+import com.wang.common.object.entity.OnlineAdmin;
+import com.wang.common.object.entity.Admin;
 import com.wang.business.service.AdminService;
 import com.wang.common.holder.HttpHolder;
 import com.wang.common.utils.DateUtils;

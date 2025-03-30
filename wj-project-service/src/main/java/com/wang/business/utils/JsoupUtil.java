@@ -1,6 +1,6 @@
 package com.wang.business.utils;
 
-import com.wang.business.pojo.JdContent;
+import com.wang.common.object.entity.test.JdContent;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;

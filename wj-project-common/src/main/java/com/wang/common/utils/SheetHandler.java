@@ -11,7 +11,7 @@ import java.util.List;
 
 public class SheetHandler extends DefaultHandler {
 
-    private SharedStringsTable sst;
+    private final SharedStringsTable sst;
     private String lastContents;
     private boolean nextIsString;
     private String  cellPosition;
@@ -42,11 +42,7 @@ public class SheetHandler extends DefaultHandler {
             curCol++;
             cellPosition=attributes.getValue("r");
             String cellType = attributes.getValue("t");
-            if(cellType != null && cellType.equals("s")) {
-                nextIsString = true;
-            } else {
-                nextIsString = false;
-            }
+            nextIsString = cellType != null && cellType.equals("s");
         }
         //System.out.println(cellPosition);
         // 清除缓存内容

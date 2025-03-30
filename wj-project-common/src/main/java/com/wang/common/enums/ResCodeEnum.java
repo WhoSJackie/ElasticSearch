@@ -1,6 +1,7 @@
 package com.wang.common.enums;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 
 @AllArgsConstructor

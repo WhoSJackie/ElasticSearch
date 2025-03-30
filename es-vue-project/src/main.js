@@ -1,23 +1,51 @@
-// The Vue build version to load with the `import` command
-// (runtime-only or standalone) has been set in webpack.base.conf with an alias.
-import App from './App.vue'
 import Vue from 'vue'
-import router from './router';
-import store from './store';
-import ElementUI from 'element-ui';
-import 'element-ui/lib/theme-chalk/index.css';
-import Prototype from "./utils/prototype"
 
+import 'normalize.css/normalize.css' // A modern alternative to CSS resets
 
-Vue.use(ElementUI);
-Vue.use(Prototype);
-/* eslint-disable no-new */
+// element使用CDN全局引入，因此这里可以注释
+// import ElementUI from 'element-ui'
+// import 'element-ui/lib/theme-chalk/index.css'
+// import locale from 'element-ui/lib/locale/lang/en'
+
+// 全局样式
+import '@/styles/index.scss'
+// 引入全局工具类
+import prototype from './utils/prototype'
+
+import App from './App'
+import router from './router'
+import store from './store'
+import '@/icons' // icon
+// todo:後續添加
+// import '@/permission' // permission control
+
+// 引入自定义指令
+// import './directive'
+
+//自定义表格工具扩展
+import RightToolbar from "@/components/RightToolbar"
+// 全局组件挂载
+Vue.component('RightToolbar', RightToolbar)
+
+// 添加粒子特效
+import VueParticles from 'vue-particles'
+
+// 因引入CDN加速，无需再次引入
+// Vue.use(ElementUI, { locale })
+
+import xss from 'xss'
+// 定义全局XSS解决方法
+Object.defineProperty(Vue.prototype, '$xss', {
+  value: xss
+})
+
+Vue.use(VueParticles)
+Vue.use(prototype)
+Vue.config.productionTip = false
+
 new Vue({
   el: '#app',
   router,
-  //需要将store和vue实例进行关联，这里将其传递进去
   store,
-  components: { App },
-  template: '<App/>'
+  render: h => h(App)
 })
-

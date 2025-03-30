@@ -22,6 +22,7 @@
 <!--        <module>rabbitmq-fanout-producer</module>-->
 <!--        <module>rabbitmq-fanout-consumer</module>-->
         <module>wj-project-web</module>
+        <module>wj-project-file</module>
     </modules>
 
     <properties>
@@ -36,6 +37,9 @@
         <spring-cloud-alibaba.version>2.2.4.RELEASE</spring-cloud-alibaba.version>
 <!--        <spring-boot-dependencies.version>2.2.5.RELEASE</spring-boot-dependencies.version>-->
         <spring-cloud.version>Hoxton.SR3</spring-cloud.version>
+        <druid.version>1.0.18</druid.version>
+        <mysql-connector.version>8.0.26</mysql-connector.version>
+        <swagger.starter.version>3.0.0</swagger.starter.version>
     </properties>
 
     <dependencyManagement>
@@ -129,13 +133,13 @@
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>druid</artifactId>
-                <version>1.0.18</version>
+                <version>${druid.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>mysql</groupId>
                 <artifactId>mysql-connector-java</artifactId>
-                <version>8.0.26</version>
+                <version>${mysql-connector.version}</version>
             </dependency>
 
             <!-- https://mvnrepository.com/artifact/org.dom4j/dom4j -->
@@ -170,8 +174,8 @@
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
                 <version>${spring-cloud.version}</version>
-                <scope>import</scope>
                 <type>pom</type>
+                <scope>import</scope>
             </dependency>
 
             <dependency>

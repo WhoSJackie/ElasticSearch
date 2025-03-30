@@ -8,7 +8,7 @@ import java.util.Date;
 @Slf4j
 public class DateUtils {
 
-    private static String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
+    private static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
     public static String getNowTime(){
         SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);

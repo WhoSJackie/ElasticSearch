@@ -24,7 +24,7 @@ public enum EStatusEnum {
      */
     STICK(3);
 
-    private int value;
+    private final int value;
 
 
 

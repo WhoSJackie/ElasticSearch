@@ -91,7 +91,7 @@ public class LargeExcelUtil {
                         "com.sun.org.apache.xerces.internal.parsers.SAXParser"
                 );
         setSheetHandler(new SheetHandler(sst));
-        ContentHandler handler = (ContentHandler) sheetHandler;
+        ContentHandler handler = sheetHandler;
         parser.setContentHandler(handler);
         return parser;
     }

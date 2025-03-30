@@ -1,10 +1,9 @@
 package com.wang.business.utils;
 
-import com.wang.business.pojo.CISP002TbPojo;
+import com.wang.common.object.entity.test.CISP002TbPojo;
 import org.apache.poi.xwpf.usermodel.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 
 import java.io.FileInputStream;
 import java.io.IOException;

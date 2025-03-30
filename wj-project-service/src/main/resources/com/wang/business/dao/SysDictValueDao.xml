@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.wang.business.dao.SysDictValueDao">
-    <resultMap id="BaseResultMap" type="com.wang.business.pojo.oracle.SysDictValuePojo">
+    <resultMap id="BaseResultMap" type="com.wang.common.object.entity.oracle.SysDictValuePojo">
         <id column="dictitem" jdbcType="INTEGER" property="dictitem" />
         <id column="subitem" jdbcType="VARCHAR" property="subitem" />
         <result column="subitemname" jdbcType="VARCHAR" property="subitemname" />
@@ -15,7 +15,7 @@
         dictitem,itemname,loadlevel,validlen,dispflag,ctrlflag,dictgroupid,usersetflag
     </sql>
 
-    <select id="getSysDictValue" resultMap="BaseResultMap" parameterType="com.wang.business.pojo.oracle.SysDictValuePojo">
+    <select id="getSysDictValue" resultMap="BaseResultMap" parameterType="com.wang.common.object.entity.oracle.SysDictValuePojo">
         select * from sys_dictvalue where 1=1
         <if test="item.dictitem!=null">
             and dictitem=#{item.dictitem}

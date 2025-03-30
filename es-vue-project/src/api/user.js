@@ -6,9 +6,10 @@ import request from '@/utils/request'
  */
 export function login(params) {
   return request({
-    url: process.env.WEB_API + '/oauth/render',
+    // url: process.env.WEB_API + '/oauth/render',
+    url: '/api/oauth/render',
     method: 'post',
-    params
+    data:params
   })
 }
 

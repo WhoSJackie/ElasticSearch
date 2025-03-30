@@ -65,8 +65,8 @@ export default {
         },
         {
           icon:"el-icon-setting",
-          index:"es",
-          title:'helloworld'
+          index:"index",
+          title:'测试页面'
         }
       ]
     }

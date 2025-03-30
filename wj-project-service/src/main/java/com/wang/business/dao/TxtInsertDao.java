@@ -1,6 +1,6 @@
 package com.wang.business.dao;
 
-import com.wang.business.pojo.TxtInsertPojo;
+import com.wang.common.object.entity.test.TxtInsertPojo;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 

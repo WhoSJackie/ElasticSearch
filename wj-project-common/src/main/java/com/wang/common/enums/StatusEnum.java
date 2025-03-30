@@ -2,10 +2,11 @@ package com.wang.common.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+@Getter
 @AllArgsConstructor
-@NoArgsConstructor
 public enum StatusEnum {
 
 
@@ -13,6 +14,6 @@ public enum StatusEnum {
 
     DISABLE(0);
 
-    private int value;
+    private final int value;
 
 }

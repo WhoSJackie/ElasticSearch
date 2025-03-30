@@ -1,6 +1,6 @@
 package com.wang.business.utils;
 
-import com.wang.business.pojo.JdContent;
+import com.wang.common.object.entity.test.JdContent;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;

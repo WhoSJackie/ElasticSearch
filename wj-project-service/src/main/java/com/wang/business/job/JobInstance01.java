@@ -1,6 +1,6 @@
 package com.wang.business.job;
 
-import com.wang.business.service.TestBeanInitService;
+import com.wang.business.service.test.TestBeanInitService;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
