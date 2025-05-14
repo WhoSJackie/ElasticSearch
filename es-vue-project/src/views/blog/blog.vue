@@ -90,7 +90,7 @@
         </el-select>
 
         <el-button style="margin-left: 10px;" class="filter-item" type="primary" icon="el-icon-search"
-                   @click="handleFind" v-permission="'/blog/getList'">查找
+                   @click="handleFind" >查找
         </el-button>
 
       </el-form>
@@ -375,7 +375,7 @@
           </el-col>
 
           <el-col :span="6.5">
-            <el-form-item label="文章类型" :label-width="formLabelWidth" prop="openComment">
+            <el-form-item label="文章类型" :label-width="formLabelWidth" prop="type">
               <el-radio v-for="item in blogTypeDictList" :key="item.uid" v-model="form.type" :label="item.dictValue"
                         border size="small">{{ item.dictLabel }}
               </el-radio>
@@ -487,18 +487,17 @@
 </template>
 
 <script>
-import {getBlogList} from "@/api/blog";
-// import {addBlog, deleteBatchBlog, deleteBlog, editBlog, getBlogList} from "@/api/blog";
+import {addBlog, deleteBatchBlog, deleteBlog, editBlog, getBlogList} from "@/api/blog";
 import {getSystemConfig} from "@/api/systemConfig";
 import {getTagList} from "@/api/tag";
 import {getBlogSortList} from "@/api/blogSort";
 // import {formatData} from "@/utils/webUtils";
 import {getToken} from '@/utils/auth'
-// import {getCookie} from "@/utils/cookieUtils";
+import {getCookie} from "@/utils/cookieUtils";
 import {getListByDictTypeList} from "@/api/sysDictData"
 // import {addSubjectItemList} from "@/api/subjectItem";
 
-// import CheckPhoto from "../../components/CheckPhoto";
+import CheckPhoto from "../../components/CheckPhoto";
 import CKEditor from "../../components/CKEditor";
 import MarkdownEditor from "../../components/MarkdownEditor";
 // import SubjectSelect from "../../components/SubjectSelect";
@@ -507,7 +506,7 @@ import {Loading} from 'element-ui';
 var querystring = require("querystring");
 export default {
   components: {
-    // CheckPhoto,
+    CheckPhoto,
     CKEditor,
     MarkdownEditor,
     // SubjectSelect
@@ -645,19 +644,19 @@ export default {
       this.sortRemoteMethod(tempBlogSort.name);
       this.queryParams.sortKeyword = tempBlogSort.blogSortUid;
     }
-    // // 判断是否需要展开条件查询
-    // this.getShowSearch()
-    //
+    // 判断是否需要展开条件查询
+    this.getShowSearch();
+
     // 获取系统配置
-    this.getSystemConfigList()
+    this.getSystemConfigList();
     //
     // 获取字典
-    this.getDictList()
+    this.getDictList();
     //
-    // // 获取标签列表
-    // this.tagList()
+    // 获取标签列表
+    this.tagList();
     // 获取博客分类
-    this.blogSortList()
+    this.blogSortList();
     //获取博客列表
     this.blogList();
   },
@@ -732,13 +731,16 @@ export default {
       params.pageSize = this.pageSize;
       params.orderByDescColumn = this.orderByDescColumn;
       params.orderByAscColumn = this.orderByAscColumn;
-      console.log(JSON.stringify(params));
       getBlogList(params).then(response => {
-        if (response.data.code == this.$ECode.SUCCESS) {
-          this.tableData = response.data.data.records;
-          this.currentPage = response.data.data.current;
-          this.pageSize = response.data.data.size;
-          this.total = response.data.data.total;
+        let resp = response.data;
+        console.log(JSON.stringify(resp.data.current));
+        console.log(JSON.stringify(resp.data.size));
+        console.log(JSON.stringify(resp.data.total));
+        if (resp.code == this.$ECode.SUCCESS) {
+          this.tableData = resp.data.records;
+          this.currentPage = resp.data.current;
+          this.pageSize = resp.data.size;
+          this.total = resp.data.total;
         }
       });
     },
@@ -844,11 +846,10 @@ export default {
       });
     },
     getChooseData(data) {
-      var that = this;
       this.photoVisible = false;
       this.photoList = data.photoList;
       this.fileIds = data.fileIds;
-      var fileId = this.fileIds.replace(",", "");
+      let fileId = this.fileIds.replace(",", "");
       if (this.photoList.length >= 1) {
         this.form.fileUid = fileId;
         this.form.photoList = this.photoList;
@@ -953,10 +954,10 @@ export default {
             that.tagValue = [];
             that.form = JSON.parse(window.LS.get("form"));
 
-            console.log("获取标签列表", that.form)
+            console.log("获取表单", that.form)
 
-            var tagValue = that.form.tagUid.split(",");
-            for (var a = 0; a < tagValue.length; a++) {
+            let tagValue = that.form.tagUid.split(",");
+            for (let a = 0; a < tagValue.length; a++) {
               if (tagValue[a] != null && tagValue[a] != "") {
                 that.tagValue.push(tagValue[a]);
               }
@@ -1119,7 +1120,7 @@ export default {
       this.changeCount = this.changeCount + 1;
     },
     handleEdit: function (row) {
-      var that = this;
+      let that = this;
       let tempForm = null;
       if (window.LS.get("form")) {
         tempForm = JSON.parse(window.LS.get("form"));
@@ -1134,7 +1135,7 @@ export default {
             that.dialogFormVisible = true;
             that.tagValue = [];
             that.form = JSON.parse(window.LS.get("form"));
-            var tagValue = that.form.tagUid.split(",");
+            let tagValue = that.form.tagUid.split(",");
             for (var a = 0; a < tagValue.length; a++) {
               if (tagValue[a] != null && tagValue[a] != "") {
                 that.tagValue.push(tagValue[a]);
@@ -1177,8 +1178,8 @@ export default {
         });
         that.tagValue = [];
         if (row.tagList) {
-          var json = row.tagList;
-          for (var i = 0, l = json.length; i < l; i++) {
+          let json = row.tagList;
+          for (let i = 0, l = json.length; i < l; i++) {
             if (json[i] != null) {
               that.tagValue.push(json[i]["uid"]);
             }
@@ -1189,17 +1190,17 @@ export default {
       }
     },
     handleDelete: function (row) {
-      var that = this;
+      let that = this;
       this.$confirm("此操作将把博客删除, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning"
       })
         .then(() => {
-          var params = {};
+          let params = {};
           params.uid = row.uid;
           deleteBlog(params).then(response => {
-            that.$commonUtil.message.success(response.message)
+            that.$commonUtil.message.success(response.data.data);
             that.blogList();
           });
         })
@@ -1220,11 +1221,12 @@ export default {
       })
         .then(() => {
           deleteBatchBlog(that.multipleSelection).then(response => {
-            if (response.code == this.$ECode.SUCCESS) {
-              that.$commonUtil.message.success(response.message)
+            let resp = response.data;
+            if (resp.code == this.$ECode.SUCCESS) {
+              that.$commonUtil.message.success(resp.data)
               that.blogList();
             } else {
-              that.$commonUtil.message.error(response.message)
+              that.$commonUtil.message.error(resp.data)
             }
           });
         })
@@ -1243,30 +1245,32 @@ export default {
         if (!valid) {
           console.log("校验出错")
         } else {
-          let params = formatData(this.form);
+          // let params = formatData(this.form);
           if (this.isEditForm) {
             editBlog(this.form).then(response => {
-              if (response.code == this.$ECode.SUCCESS) {
-                this.$commonUtil.message.success(response.message)
+              let resp = response.data;
+              if (resp.code == this.$ECode.SUCCESS) {
+                this.$commonUtil.message.success(resp.data);
                 // 清空LocalStorage中的内容
                 window.LS.remove("form")
                 this.dialogFormVisible = false;
                 this.blogList();
               } else {
-                this.$commonUtil.message.error(response.message)
+                this.$commonUtil.message.error(resp.msg);
               }
             });
 
           } else {
             addBlog(this.form).then(response => {
-              if (response.code == this.$ECode.SUCCESS) {
-                this.$commonUtil.message.success(response.message)
+              let resp = response.data;
+              if (resp.code == this.$ECode.SUCCESS) {
+                this.$commonUtil.message.success(resp.data)
                 // 清空cookie中的内容
                 window.LS.remove("form")
                 this.dialogFormVisible = false;
                 this.blogList();
               } else {
-                this.$commonUtil.message.error(response.message)
+                this.$commonUtil.message.error(resp.msg)
               }
             });
           }

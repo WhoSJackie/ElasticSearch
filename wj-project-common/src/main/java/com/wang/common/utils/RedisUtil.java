@@ -46,6 +46,9 @@ public class RedisUtil {
     }
 
 
+    public void deleteKey(String key){
+        redisTemplate.delete(key);
+    }
 
 
 

@@ -11,6 +11,13 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
+      '/picture/':{
+        target:'http://127.0.0.1:8088',
+        changeOrigin:true,
+        pathRewrite:{
+          '^/picture':'' // 路径重写，使用"/picture"代替target【跨域时，将"/picture"替换为""】
+        }
+      },
         '/api/':{
             target:'http://127.0.0.1:8089',
             changeOrigin:true,

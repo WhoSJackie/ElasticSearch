@@ -24,4 +24,6 @@ public class SystemConfigServiceImpl  extends ServiceImpl<SystemConfigDao, Syste
         queryWrapper.last(SqlConstant.LIMIT_ONE);
         return systemConfigDao.selectOne(queryWrapper);
     }
+
+
 }

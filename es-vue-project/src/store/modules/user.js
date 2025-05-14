@@ -1,9 +1,12 @@
 import { login, logout, getInfo, getMenu } from '@/api/login'
 import { getToken, setToken, removeToken } from '@/utils/auth'
+import store from "../index";
+import {getCookie, setCookie} from "../../utils/cookieUtils";
 
 const user = {
   state: {
-    token: getToken(),
+    // todo: token: getToken(),
+    token: '',
     name: '',
     avatar: '',
     roles: [],
@@ -37,18 +40,18 @@ const user = {
     Login({ commit }, userInfo) {
       const username = userInfo.username.trim()
       const password = userInfo.password.trim()
-      const isRememberMe = userInfo.isRememberMe
+      const rememberMeFlag = userInfo.rememberMeFlag
       return new Promise((resolve, reject) => {
-        var params = new URLSearchParams()
+        let params = new URLSearchParams()
         params.append('username', username)
         params.append('password', password)
-        params.append('isRememberMe', isRememberMe)
+        params.append('rememberMeFlag', rememberMeFlag)
         login(params).then(response => {
-          const data = response.data
+          const data = response.data.data;
           // 向cookie中设置token
-          setToken(data.token)
+          setToken(data.token);
           // 向store中设置cookie
-          commit('SET_TOKEN', data.token)
+          commit('SET_TOKEN', data.token);
           resolve(response)
         }).catch(error => {
           reject(error)
@@ -80,14 +83,14 @@ const user = {
     GetInfo({ commit, state }) {
       return new Promise((resolve, reject) => {
         getInfo(state.token).then(response => {
-          const data = response.data
-          if (data.roles && data.roles.length > 0) { // 验证返回的roles是否是一个非空数组
-            commit('SET_ROLES', data.roles)
+          const resp = response.data;
+          if (resp.data.roles && resp.data.roles.length > 0) { // 验证返回的roles是否是一个非空数组
+            commit('SET_ROLES', resp.data.roles)
           } else {
             reject('登录已过期，请重新登录!')
           }
-          commit('SET_NAME', data.name)
-          commit('SET_AVATAR', data.avatar)
+          commit('SET_NAME', resp.data.name)
+          commit('SET_AVATAR', resp.data.avatar)
           resolve(response)
         }).catch(error => {
           reject(error)

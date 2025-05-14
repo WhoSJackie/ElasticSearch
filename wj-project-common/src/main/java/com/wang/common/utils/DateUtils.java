@@ -15,10 +15,10 @@ public class DateUtils {
         return sdf.format(new Date(System.currentTimeMillis()));
     }
 
-    public static String getDateStr(Date date,long millionTimes){
+    public static String getDateStr(Date date,long secondTimes){
         SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
         try{
-            long time = date.getTime()+1000*millionTimes;
+            long time = date.getTime()+1000*secondTimes;
             return sdf.format(time);
         } catch (Exception e){
             log.error("时间转换失败");
@@ -26,5 +26,8 @@ public class DateUtils {
         return "";
     }
 
+    public static Long getSecondBetweenTwo(Date first,Date second){
+        return Math.abs(first.getTime()-second.getTime())/1000;
+    }
 
 }

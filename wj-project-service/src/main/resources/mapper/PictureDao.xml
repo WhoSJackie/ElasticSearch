@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wang.business.mysqldao.PictureDao">
+
+    <resultMap id="BaseResultMap" type="generator.domain.TPicture">
+            <id property="uid" column="uid" jdbcType="VARCHAR"/>
+            <result property="fileUid" column="file_uid" jdbcType="VARCHAR"/>
+            <result property="picName" column="pic_name" jdbcType="VARCHAR"/>
+            <result property="pictureSortUid" column="picture_sort_uid" jdbcType="VARCHAR"/>
+            <result property="status" column="status" jdbcType="TINYINT"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        uid,file_uid,pic_name,
+        picture_sort_uid,status,create_time,
+        update_time
+    </sql>
+</mapper>

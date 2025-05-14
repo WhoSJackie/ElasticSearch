@@ -8,7 +8,7 @@ export function getListByDictType(params){
    return request({
      url: '/api/dict/getSingle',
      method:'get',
-     params
+     params:params
    });
 }
 

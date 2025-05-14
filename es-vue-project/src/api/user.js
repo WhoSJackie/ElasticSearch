@@ -48,7 +48,7 @@ export function getFeedbackList(params) {
   return request({
     url: process.env.WEB_API + '/oauth/getFeedbackList',
     method: 'get',
-    params
+    params:params
   })
 }
 
@@ -129,6 +129,6 @@ export function getUserLoginStatus(params) {
   return request({
     url: process.env.WEB_API + '/wechat/getUserLoginStatus',
     method: 'get',
-    params
+    params:params
   })
 }

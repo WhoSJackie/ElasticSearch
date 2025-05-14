@@ -9,6 +9,4 @@ import java.util.List;
 @Repository
 public interface AdminDao extends BaseMapper<Admin> {
 
-    List<Admin> queryItems();
-
 }

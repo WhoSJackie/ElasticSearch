@@ -7,8 +7,8 @@ import java.util.List;
 
 public interface AdminService extends IService<Admin> {
 
-    List<Admin> queryItemList();
+    Admin getOneAdmin(String uid);
 
-    void addOnlineAdmin(Admin admin,Long expireSecond);
+    void addOnlineAdmin(Admin admin, Long expireSecond);
 
 }

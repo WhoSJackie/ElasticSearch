@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.wang.business.mysqldao.AdminDao">
-    <resultMap id="BaseResultMap" type="com.wang.common.object.entity.Admin">
-        <id column="id" jdbcType="BIGINT" property="id" />
-        <result column="username" jdbcType="VARCHAR" property="username" />
-        <result column="pass_word" jdbcType="VARCHAR" property="passWord" />
-        <result column="gender" jdbcType="VARCHAR" property="gender" />
-        <result column="email" jdbcType="VARCHAR" property="email" />
-        <result column="birthday" jdbcType="DATE" property="birthday" />
-        <result column="roleUid" jdbcType="VARCHAR" property="roleUid" />
-        <result column="mobile" jdbcType="VARCHAR" property="mobile" />
-        <result column="validCode" jdbcType="VARCHAR" property="validCode" />
-        <result column="loginCount" jdbcType="VARCHAR" property="loginCount" />
-        <result column="lastLoginTime" jdbcType="TIMESTAMP" property="lastLoginTime" />
-        <result column="lastLoginIp" jdbcType="VARCHAR" property="lastLoginIp" />
-        <result column="status" jdbcType="INTEGER" property="status" />
-    </resultMap>
+<!--    <resultMap id="BaseResultMap" type="com.wang.common.object.entity.Admin">-->
+<!--        <id column="id" jdbcType="BIGINT" property="id" />-->
+<!--        <result column="username" jdbcType="VARCHAR" property="username" />-->
+<!--        <result column="pass_word" jdbcType="VARCHAR" property="passWord" />-->
+<!--        <result column="gender" jdbcType="VARCHAR" property="gender" />-->
+<!--        <result column="email" jdbcType="VARCHAR" property="email" />-->
+<!--        <result column="birthday" jdbcType="DATE" property="birthday" />-->
+<!--        <result column="roleUid" jdbcType="VARCHAR" property="roleUid" />-->
+<!--        <result column="mobile" jdbcType="VARCHAR" property="mobile" />-->
+<!--        <result column="validCode" jdbcType="VARCHAR" property="validCode" />-->
+<!--        <result column="loginCount" jdbcType="VARCHAR" property="loginCount" />-->
+<!--        <result column="lastLoginTime" jdbcType="TIMESTAMP" property="lastLoginTime" />-->
+<!--        <result column="lastLoginIp" jdbcType="VARCHAR" property="lastLoginIp" />-->
+<!--        <result column="status" jdbcType="INTEGER" property="status" />-->
+<!--    </resultMap>-->
 
-    <select id="queryItems" resultMap="BaseResultMap">
-        select * from t_admin t where t.status=1;
-    </select>
+<!--    <select id="queryItems" resultMap="BaseResultMap">-->
+<!--        select * from t_admin t where t.status=1;-->
+<!--    </select>-->
 
 
 </mapper>

@@ -49,7 +49,7 @@ export default {
     }
   },
   created() {
-    var that = this;
+    let that = this;
     this.$store.dispatch("GetMenu").then(response => {
       if (response.data.code == this.$ECode.SUCCESS) {
         let resp = response.data;

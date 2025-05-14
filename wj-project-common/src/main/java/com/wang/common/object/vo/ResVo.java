@@ -28,7 +28,15 @@ public class ResVo<T> {
     public static <T> ResVo<T> buildSuccessRes(T data){
         ResVo<T> res = new ResVo<T>();
         res.setData(data);
-        res.setMsg("success");
+        res.setMsg("操作成功!");
+        res.setCode(ResCodeEnum.SUCCESS.getCode());
+        return res;
+    }
+
+    public static <T>ResVo<T> buildSuccessMsgRes(String msg){
+        ResVo<T> res = new ResVo<T>();
+        res.setData(null);
+        res.setMsg(msg);
         res.setCode(ResCodeEnum.SUCCESS.getCode());
         return res;
     }

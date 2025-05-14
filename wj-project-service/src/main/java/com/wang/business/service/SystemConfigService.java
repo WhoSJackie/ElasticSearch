@@ -6,6 +6,4 @@ import com.wang.common.object.entity.SystemConfig;
 public interface SystemConfigService extends IService<SystemConfig> {
 
     SystemConfig getOne();
-
-
 }

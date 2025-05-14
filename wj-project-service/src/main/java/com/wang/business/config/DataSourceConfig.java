@@ -1,6 +1,8 @@
 package com.wang.business.config;
 
 import com.alibaba.druid.pool.DruidDataSource;
+import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
+import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -20,7 +22,7 @@ import javax.sql.DataSource;
 @MapperScan(basePackages = DataSourceConfig.PACKAGE,sqlSessionTemplateRef="mysqlSessionTemplate")
 public class DataSourceConfig {
 
-    public  static final String PACKAGE = "com.wang.business.mysqldao";
+    public static final String PACKAGE = "com.wang.business.mysqldao";
 
     @Value("${datasource.mysql.driver}")
     private String driver;
@@ -54,11 +56,15 @@ public class DataSourceConfig {
 
     @Primary
     @Bean("mysqlSessionFactory")
-    public SqlSessionFactory mysqlSessionFactory(@Qualifier("dataSource") DataSource dataSource) throws Exception {
+    public SqlSessionFactory mysqlSessionFactory(@Qualifier("dataSource") DataSource dataSource,@Qualifier("paginationInnerInterceptor") PaginationInnerInterceptor paginationInnerInterceptor) throws Exception {
         MybatisSqlSessionFactoryBean sqlSessionFactory = new MybatisSqlSessionFactoryBean();
         sqlSessionFactory.setDataSource(dataSource);
         sqlSessionFactory.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath*:com/wang/business/mysqldao/*.xml"));
         // sqlSessionFactory.setTypeAliasesPackage(typeAlias);
+        // 分页插件的使用
+        MybatisPlusInterceptor mybatisPlusInterceptor = new MybatisPlusInterceptor();
+        mybatisPlusInterceptor.addInnerInterceptor(paginationInnerInterceptor);
+        sqlSessionFactory.setPlugins(mybatisPlusInterceptor);
         return sqlSessionFactory.getObject();
     }
 

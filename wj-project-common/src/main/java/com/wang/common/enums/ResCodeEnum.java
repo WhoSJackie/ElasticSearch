@@ -11,6 +11,6 @@ public enum ResCodeEnum {
     SUCCESS(0),
     ERROR(-1);
 
-    int code;
+    private final int code;
 
 }

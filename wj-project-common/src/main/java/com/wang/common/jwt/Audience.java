@@ -11,6 +11,7 @@ public class Audience {
     private String base64Secret;
     private String name;
     private int expiresSecond;
+    private int refreshSecond;
 
     public String getClientId() {
         return clientId;
@@ -42,6 +43,14 @@ public class Audience {
 
     public void setExpiresSecond(int expiresSecond) {
         this.expiresSecond = expiresSecond;
+    }
+
+    public int getRefreshSecond() {
+        return refreshSecond;
+    }
+
+    public void setRefreshSecond(int refreshSecond) {
+        this.refreshSecond = refreshSecond;
     }
 
     @Override

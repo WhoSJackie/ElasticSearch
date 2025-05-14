@@ -12,10 +12,10 @@ const allList = []
 
 router.beforeEach((to, from, next) => {
   if (allList.length === 0) {
-    for (var a = 0; a < constantRouterMap.length; a++) {
+    for (let a = 0; a < constantRouterMap.length; a++) {
       if (constantRouterMap[a].children) {
-        var childrenList = constantRouterMap[a].children
-        for (var b = 0; b < childrenList.length; b++) {
+        let childrenList = constantRouterMap[a].children
+        for (let b = 0; b < childrenList.length; b++) {
           allList.push(constantRouterMap[a].path + '/' + childrenList[b].path)
         }
       } else {
@@ -28,13 +28,13 @@ router.beforeEach((to, from, next) => {
   const activeList = []
   if (store.getters.menu.sonList) {
     const sonList = store.getters.menu.sonList
-    for (var c = 0; c < sonList.length; c++) {
+    for (let c = 0; c < sonList.length; c++) {
       activeList.push(sonList[c].url)
     }
   }
 
-  NProgress.start()
-  if (getToken()) {
+  NProgress.start();
+  if (getToken() && getToken()!=undefined && getToken()!='undefined') {
     if (to.path === '/login') {
       next({ path: '/' })
       NProgress.done() // if current page is dashboard will not trigger	afterEach hook, so manually handle it

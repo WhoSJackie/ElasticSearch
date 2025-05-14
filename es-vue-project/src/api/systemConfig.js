@@ -9,7 +9,7 @@ export function getSystemConfig(params) {
     // url: process.env.WEB_API + '/oauth/render',
     url: '/api/auth/getSystemConfig',
     method: 'get',
-    params
+    params:params
   })
 }
 

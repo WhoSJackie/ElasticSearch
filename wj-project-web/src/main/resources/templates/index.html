@@ -131,7 +131,7 @@
         },
         methods:{
             searchKeyWord(){
-                var keyword = this.keyword;
+                let keyword = this.keyword;
                 console.log(keyword);
                 axios.get('/eshandler/queryContent/'+keyword+'/0/20').then(response=>{
                     console.log(response.data.content);

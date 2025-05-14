@@ -6,6 +6,7 @@ import com.wang.business.service.test.*;
 import com.wang.common.constants.SqlConstant;
 import com.wang.common.enums.EPublishEnum;
 import com.wang.common.enums.EStatusEnum;
+import com.wang.common.jwt.JwtTokenUtil;
 import com.wang.common.object.entity.Admin;
 import com.wang.common.object.entity.Role;
 import com.wang.common.object.entity.SysDictType;
@@ -17,8 +18,13 @@ import org.apache.lucene.search.similarities.Lambda;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.zip.Deflater;
+import java.util.zip.Inflater;
 
 @SpringBootTest
 class EsJdPracticeApplicationTests {
@@ -46,6 +52,9 @@ class EsJdPracticeApplicationTests {
 
     @Autowired
     SysDictTypeDao sysDictTypeDao;
+
+    @Autowired
+    JwtTokenUtil jwtTokenUtil;
 
     @Test
     void contextLoads() {
@@ -91,15 +100,15 @@ class EsJdPracticeApplicationTests {
         System.out.println(redisUtil.get("test01"));
     }
 
-    @Test
-    public void queryPojo(){
-        List<Admin> adminList = adminService.queryItemList();
-        for (Admin admin : adminList) {
-            System.out.println(admin.toString());
-        }
-        Role role = roleService.queryItem(2L);
-        System.out.println(role.toString());
-    }
+//    @Test
+//    public void queryPojo(){
+//        List<Admin> adminList = adminService.queryItemList();
+//        for (Admin admin : adminList) {
+//            System.out.println(admin.toString());
+//        }
+//        Role role = roleService.queryItem(2L);
+//        System.out.println(role.toString());
+//    }
 
     @Test
     /**
@@ -136,6 +145,20 @@ class EsJdPracticeApplicationTests {
         System.out.println(sysDictType);
     }
 
+    @Test
+    public void testGetPassword(){
+        PasswordEncoder encoder = new BCryptPasswordEncoder();
+        String mogu2018 = encoder.encode("admin");
+        System.out.println(mogu2018);
+        System.out.println(encoder.matches("admin","$2a$10$io8/MIZuoBn.I7QlmHseDOgckz5a8JyRHmdZJNz1LuE.Zqw2Z84Yi"));
+    }
+
+    @Test
+    public void testGetJwt(){
+        String token = jwtTokenUtil.createJwt("admin","1f01cd1d2f474743b241d74008b12333","超级管理员"
+                ,"098f6bcd4621d373cade4e832627b4f6","wjblog",7200000,"MDk4ZjZiY2Q0NjIxZDM3M2NhZGU0ZTgzMjYyN2I0ZjY=");
+        System.out.println(token);
+    }
 
 
 
