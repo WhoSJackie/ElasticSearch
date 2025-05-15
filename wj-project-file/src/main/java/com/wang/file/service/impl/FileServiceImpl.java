@@ -38,13 +38,21 @@ public class FileServiceImpl implements FileService {
     @Value("${prePicUrl}")
     private String prePicUrl;
 
+    @Value("${serverAddr}")
+    private String serverAddr;
+
+    @Value("${tarPicUrl}")
+    private String tarPicUrl;
+
+
     @Override
-    public List<File> getPicture(List<String> uids) {
+    public List<File> getPictureByUids(List<String> uids) {
         List<String> filterUids = uids.stream().filter(StringUtils::isNotEmpty).collect(Collectors.toList());
         if (CollectionUtils.isEmpty(filterUids)) return new ArrayList<>();
         LambdaQueryWrapper<File> wrapper = new LambdaQueryWrapper<>();
         wrapper.in(File::getUid,uids);
-        return fileDao.selectList(wrapper);
+        List<File> fileList = fileDao.selectList(wrapper);
+        return fileList;
     }
 
     @Override
@@ -93,6 +101,11 @@ public class FileServiceImpl implements FileService {
         fileResponse.setErrFile(errFileList);
         fileResponse.setSuccFileList(succFileList);
         return fileResponse;
+    }
+
+    private String genPicUrl(String picUrl){
+        String replaceStr = picUrl.replace(prePicUrl, tarPicUrl);
+        return serverAddr+replaceStr;
     }
 
 }

@@ -9,7 +9,7 @@
       <el-button class="filter-item" type="success" @click="setCover" icon="el-icon-video-camera-solid" >设为封面</el-button>
     </div>
 <!--  <el-image-->
-<!--    :src="require('D:/home/wjblog/1746937367734.jpg')"-->
+<!--    :src="'http://localhost/file:D:/home/wjblog/1747231275193.jpg'"-->
 <!--    style="cursor:pointer"-->
 <!--    fit="scale-down"-->
 <!--  />-->

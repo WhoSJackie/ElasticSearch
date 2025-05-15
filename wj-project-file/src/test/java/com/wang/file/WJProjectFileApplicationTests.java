@@ -23,7 +23,7 @@ class WJProjectFileApplicationTests {
     @Test
     void getPicTest() {
         List<String> list = new ArrayList<>();
-        fileService.getPicture(list);
+        fileService.getPictureByUids(list);
     }
 
     @Test

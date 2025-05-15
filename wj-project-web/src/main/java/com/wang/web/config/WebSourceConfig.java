@@ -10,8 +10,11 @@ public class WebSourceConfig implements WebMvcConfigurer {
 
     @Value("${prePicUrl}")
     private String prePicUrl;
+
+    @Value("${tarPicUrl}")
+    private String tarPicUrl;
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler(prePicUrl+"**").addResourceLocations("file:D:/home/wjblog/");
+        registry.addResourceHandler(prePicUrl+"**").addResourceLocations(tarPicUrl);
     }
 }

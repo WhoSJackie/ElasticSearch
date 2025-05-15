@@ -20,6 +20,31 @@ export function getPictureSortByUid(params){
   });
 }
 
+export function editPictureSort(params){
+  return request({
+    url: '/api/picSort/editPicSort',
+    method:'post',
+    data:params
+  });
+}
+
+export function addPictureSort(params){
+  return request({
+    url: '/api/picSort/addPicSort',
+    method:'post',
+    data:params
+  });
+}
+
+export function deletePictureSort(params){
+  return request({
+    url: '/api/picSort/delPicSort',
+    method:'get',
+    params:params
+  });
+}
+
+
 
 
 

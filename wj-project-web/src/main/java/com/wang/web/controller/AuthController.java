@@ -259,7 +259,7 @@ public class AuthController {
         if (StringUtils.isNotEmpty(avatars)){
             List<String> avatarList = Arrays.asList(avatars.split(","));
             FileRequest fileRequest = new FileRequest(avatarList);
-            ResVo<List<File>> picture = fileFeignClient.getPicture(fileRequest);
+            ResVo<List<File>> picture = fileFeignClient.getPictureByUids(fileRequest);
             if (picture!=null && picture.getData()!=null){
                 List<File> data = picture.getData();
                 if (data.size()>0){

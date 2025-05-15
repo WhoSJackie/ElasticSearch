@@ -83,7 +83,7 @@ public class BlogServiceImpl implements BlogService {
         List<String> uidList = new ArrayList<>();
         if (!StrUtils.isEmpty(blog.getFileUid())) uidList.addAll(StrUtils.StringToList(blog.getFileUid(), Constants.SYMBOL_COMMA));
         FileRequest request = new FileRequest(uidList);
-        ResVo<List<File>> pictureRes = fileFeignClient.getPicture(request);
+        ResVo<List<File>> pictureRes = fileFeignClient.getPictureByUids(request);
         List<File> picList = pictureRes.getData();
         if (CollectionUtils.isEmpty(picList)) return;
         List<String> photoList = picList.stream().map(File::getPicUrl).collect(Collectors.toList());

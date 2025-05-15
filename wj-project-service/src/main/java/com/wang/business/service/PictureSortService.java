@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.wang.common.object.entity.PictureSort;
 import com.wang.common.object.vo.PageInfo;
 import com.wang.common.object.vo.PictureSortVo;
+import com.wang.common.object.vo.ResVo;
 
 /**
 * @author jiami
@@ -13,8 +14,14 @@ import com.wang.common.object.vo.PictureSortVo;
 */
 public interface PictureSortService extends IService<PictureSort> {
 
-    IPage<PictureSort> getPageInfo(PictureSortVo pictureSortVo);
+    IPage<PictureSort> getPageInfo(PictureSortVo pictureSortVo) throws IllegalAccessException;
 
     PictureSort getSortByUid(PictureSortVo pictureSortVo);
+
+    int updatePictureSort(PictureSortVo pictureSortVo) throws IllegalAccessException;
+
+    int addPictureSort(PictureSortVo pictureSortVo) throws IllegalAccessException;
+
+    ResVo<String> deletePictureSort(String uid);
 
 }

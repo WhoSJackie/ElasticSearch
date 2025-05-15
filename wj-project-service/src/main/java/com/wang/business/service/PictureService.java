@@ -20,4 +20,6 @@ public interface PictureService extends IService<Picture> {
 
     int deleteBatchPictures(String picUrls);
 
+    List<Picture> selectAllPic();
+
 }

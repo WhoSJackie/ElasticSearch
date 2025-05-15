@@ -16,7 +16,7 @@ public class JobExecutionService {
         CronTrigger trigger = TriggerBuilder.newTrigger().withIdentity("tr01","trg01").withSchedule(scheduleBuilder).build();
         try {
             scheduler.scheduleJob(jobDetail,trigger);
-//            scheduler.start();
+            scheduler.start();
         } catch (SchedulerException e) {
             e.printStackTrace();
         }
@@ -28,7 +28,7 @@ public class JobExecutionService {
         CronTrigger trigger = TriggerBuilder.newTrigger().withIdentity("tr02","trg02").withSchedule(scheduleBuilder).build();
         try {
             scheduler.scheduleJob(jobDetail,trigger);
-//            scheduler.start();
+            scheduler.start();
         } catch (SchedulerException e) {
             e.printStackTrace();
         }

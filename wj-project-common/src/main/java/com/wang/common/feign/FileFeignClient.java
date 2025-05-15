@@ -19,8 +19,8 @@ import java.util.List;
 @FeignClient(name = "wjfile")
 public interface  FileFeignClient{
 
-    @PostMapping("/file/getPicture")
-    ResVo<List<File>> getPicture(@RequestBody FileRequest request);
+    @PostMapping("/file/getPictureByUids")
+    ResVo<List<File>> getPictureByUids(@RequestBody FileRequest request);
 
     @PostMapping(value="/file/pictures",consumes = "multipart/form-data")
     ResVo<FileResponse> uploadPicture(@RequestPart("files") List<MultipartFile> files,
@@ -30,5 +30,8 @@ public interface  FileFeignClient{
                                       @RequestParam("projectName")String projectName,
                                       @RequestParam("sortName")String sortName,
                                       @RequestParam("token") String token);
+
+    @PostMapping("/file/getAllPicture")
+    ResVo<List<File>> getAllPicture();
 
 }

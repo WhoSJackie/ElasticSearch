@@ -21,13 +21,48 @@ public class PictureSortController {
     @PostMapping("/getPage")
     @ApiOperation(value = "图片分类分页列表", notes = "图片分类分页列表", response = ResVo.class)
     public ResVo<IPage<PictureSort>> getPageInfo(@RequestBody PictureSortVo pictureSortVo){
-        return ResVo.buildSuccessRes(pictureSortService.getPageInfo(pictureSortVo));
+        try{
+            IPage<PictureSort> pageInfo = pictureSortService.getPageInfo(pictureSortVo);
+            return ResVo.buildSuccessRes(pageInfo);
+        } catch(Exception e){
+            return ResVo.buildErrRes("查询列表失败"+e);
+        }
     }
 
     @PostMapping("/getPicSortByUid")
     @ApiOperation(value = "通过uid查找图片分类", notes = "通过uid查找图片分类", response = ResVo.class)
     public ResVo<PictureSort> getPicSortByUid(@RequestBody PictureSortVo pictureSortVo){
         return ResVo.buildSuccessRes(pictureSortService.getSortByUid(pictureSortVo));
+    }
+
+    @PostMapping("/editPicSort")
+    @ApiOperation(value = "编辑图片分类", notes = "编辑图片分类", response = ResVo.class)
+    public ResVo<String> updatePicSort(@RequestBody PictureSortVo pictureSortVo){
+        int i = 0;
+        try{
+            i = pictureSortService.updatePictureSort(pictureSortVo);
+        } catch(Exception e){
+            return ResVo.buildErrRes("编辑失败:"+e);
+        }
+        return i>0 ? ResVo.buildSuccessMsgRes("编辑成功!"):ResVo.buildErrRes("编辑失败!");
+    }
+
+    @PostMapping("/addPicSort")
+    @ApiOperation(value = "插入图片分类", notes = "插入图片分类", response = ResVo.class)
+    public ResVo<String> addPicSort(@RequestBody PictureSortVo pictureSortVo){
+        int i = 0;
+        try{
+            i = pictureSortService.addPictureSort(pictureSortVo);
+        } catch(Exception e){
+            return ResVo.buildErrRes("插入失败:"+e);
+        }
+        return i>0 ? ResVo.buildSuccessMsgRes("插入成功!"):ResVo.buildErrRes("插入失败!");
+    }
+
+    @GetMapping("/delPicSort")
+    @ApiOperation(value = "删除图片分类", notes = "删除图片分类", response = ResVo.class)
+    public ResVo<String> deletePictureSort(@RequestParam("uid") String uid){
+        return pictureSortService.deletePictureSort(uid);
     }
 
 }

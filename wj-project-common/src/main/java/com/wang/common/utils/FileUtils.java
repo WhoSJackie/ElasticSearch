@@ -4,7 +4,6 @@ import org.apache.commons.lang.StringUtils;
 
 public class FileUtils {
 
-
     public static String getExpandedName(String name){
         if (StringUtils.isNotEmpty(name)) {
             String[] split = name.split("\\.");
@@ -22,5 +21,7 @@ public class FileUtils {
         sb.append(System.currentTimeMillis()).append(".").append(type);
         return sb.toString();
     }
+
+
 
 }

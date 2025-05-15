@@ -25,12 +25,12 @@ public class FileRestApi {
     FileService fileService;
 
 
-    @PostMapping("/getPicture")
+    @PostMapping("/getPictureByUids")
     ResVo<List<File>>  getPicture(@RequestBody FileRequest request){
         if (request== null){
             return ResVo.buildErrRes("请求为空");
         }
-        List<File> pictureList = fileService.getPicture(request.getUidList());
+        List<File> pictureList = fileService.getPictureByUids(request.getUidList());
         return ResVo.buildSuccessRes(pictureList);
     }
 
@@ -57,6 +57,12 @@ public class FileRestApi {
             return ResVo.buildErrRes("上传失败"+e);
         }
         return ResVo.buildSuccessRes(fileResponse);
+    }
+
+    @PostMapping("/getAllPicture")
+    ResVo<List<File>>  getAllPicture(){
+        List<File> pictureList = fileService.getAllPicture();
+        return ResVo.buildSuccessRes(pictureList);
     }
 
 

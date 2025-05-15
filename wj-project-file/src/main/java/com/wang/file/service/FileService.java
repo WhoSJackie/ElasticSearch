@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface FileService {
 
-    List<File> getPicture(List<String> uids);
+    List<File> getPictureByUids(List<String> uids);
 
     List<File> getAllPicture();
 

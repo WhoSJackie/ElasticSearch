@@ -18,6 +18,7 @@ import com.wang.common.object.vo.ResVo;
 import com.wang.common.utils.StrUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.thymeleaf.util.StringUtils;
@@ -40,6 +41,7 @@ public class PictureServiceImpl extends ServiceImpl<PictureDao, Picture> impleme
     private PictureDao pictureDao;
     @Autowired
     private FileFeignClient fileFeignClient;
+
 
     @Override
     public IPage<Picture> getPicPage(PictureVo pictureVo) {
@@ -64,7 +66,7 @@ public class PictureServiceImpl extends ServiceImpl<PictureDao, Picture> impleme
             });
             FileRequest request = new FileRequest();
             request.setUidList(fileUids);
-            ResVo<List<File>> pictureRes = fileFeignClient.getPicture(request);
+            ResVo<List<File>> pictureRes = fileFeignClient.getPictureByUids(request);
             List<File> pictureList = pictureRes.getData();
             Map<String,String> fileMap = new HashMap<>();
             if (!CollectionUtils.isEmpty(pictureList)){
@@ -99,6 +101,7 @@ public class PictureServiceImpl extends ServiceImpl<PictureDao, Picture> impleme
         if (StringUtils.isEmpty(picUrls)){
             return 0;
         }
+        // 参数使用逗号分隔多个uid
         List<String> picList = StrUtils.StringToList(picUrls, Constants.SYMBOL_COMMA);
         LambdaQueryWrapper<Picture> queryWrapper = new LambdaQueryWrapper<>();
         int cnt=0;
@@ -113,5 +116,10 @@ public class PictureServiceImpl extends ServiceImpl<PictureDao, Picture> impleme
             }
         }
         return cnt;
+    }
+
+    @Override
+    public List<Picture> selectAllPic() {
+        return pictureDao.selectList(null);
     }
 }

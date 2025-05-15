@@ -5,13 +5,16 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.wang.business.mysqldao.PictureDao;
 import com.wang.business.mysqldao.PictureSortDao;
 import com.wang.business.service.PictureSortService;
+import com.wang.business.utils.FieldsUtil;
 import com.wang.common.constants.Constants;
 import com.wang.common.enums.EStatusEnum;
 import com.wang.common.enums.StatusEnum;
 import com.wang.common.feign.FileFeignClient;
 import com.wang.common.object.entity.File;
+import com.wang.common.object.entity.Picture;
 import com.wang.common.object.entity.PictureSort;
 import com.wang.common.object.req.FileRequest;
 import com.wang.common.object.vo.PictureSortVo;
@@ -19,6 +22,7 @@ import com.wang.common.object.vo.ResVo;
 import com.wang.common.utils.StrUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -40,13 +44,20 @@ import java.util.stream.Collectors;
 public class PictureSortServiceImpl extends ServiceImpl<PictureSortDao, PictureSort> implements PictureSortService {
 
     @Autowired
-    PictureSortDao pictureSortDao;
+    private PictureSortDao pictureSortDao;
 
     @Autowired
-    FileFeignClient fileFeignClient;
+    private FileFeignClient fileFeignClient;
+
+    @Autowired
+    private FieldsUtil fieldsUtil;
+
+    @Autowired
+    private PictureDao pictureDao;
+
 
     @Override
-    public IPage<PictureSort> getPageInfo(PictureSortVo pictureSortVo) {
+    public IPage<PictureSort> getPageInfo(PictureSortVo pictureSortVo) throws IllegalAccessException {
         LambdaQueryWrapper<PictureSort> queryWrapper = new LambdaQueryWrapper<>();
         Page page = new Page<>();
         page.setCurrent(1);
@@ -74,7 +85,7 @@ public class PictureSortServiceImpl extends ServiceImpl<PictureSortDao, PictureS
             });
             FileRequest request = new FileRequest();
             request.setUidList(fileUids);
-            ResVo<List<File>> pictureRes = fileFeignClient.getPicture(request);
+            ResVo<List<File>> pictureRes = fileFeignClient.getPictureByUids(request);
             List<File> pictureList = pictureRes.getData();
             Map<String,File> fileMap = new HashMap<>();
             if (!CollectionUtils.isEmpty(pictureList)){
@@ -98,6 +109,77 @@ public class PictureSortServiceImpl extends ServiceImpl<PictureSortDao, PictureS
     @Override
     public PictureSort getSortByUid(PictureSortVo pictureSortVo) {
         return pictureSortDao.selectById(pictureSortVo.getUid());
+    }
+
+    @Override
+    public int updatePictureSort(PictureSortVo pictureSortVo) throws IllegalAccessException {
+        if (ObjectUtils.isEmpty(pictureSortVo)){
+            log.info("没有修改的值！");
+            return 0;
+        }
+        LambdaQueryWrapper<PictureSort> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(PictureSort::getUid,pictureSortVo.getUid());
+        queryWrapper.eq(PictureSort::getStatus,EStatusEnum.ENABLE.getValue());
+        PictureSort pictureSort = pictureSortDao.selectOne(queryWrapper);
+        if (pictureSort==null){
+            log.info("未在服务器中查到对应的值！");
+            return 0;
+        }
+        if (!StringUtils.isEmpty(pictureSortVo.getName())) {
+            pictureSort.setName(pictureSortVo.getName());
+        }
+        if (!StringUtils.isEmpty(pictureSortVo.getFileUid())){
+            pictureSort.setFileUid(pictureSortVo.getFileUid());
+        }
+        if (!ObjectUtils.isEmpty(pictureSortVo.getSort())){
+            pictureSort.setSort(pictureSortVo.getSort());
+        }
+        return pictureSortDao.updateById(pictureSort);
+    }
+
+    @Override
+    public int addPictureSort(PictureSortVo pictureSortVo) throws IllegalAccessException {
+        if (ObjectUtils.isEmpty(pictureSortVo)){
+            log.info("没有增加的值！");
+            return 0;
+        }
+        LambdaQueryWrapper<PictureSort> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(PictureSort::getUid,pictureSortVo.getUid());
+        queryWrapper.eq(PictureSort::getStatus,EStatusEnum.ENABLE.getValue());
+        PictureSort pictureSort = pictureSortDao.selectOne(queryWrapper);
+        if (pictureSort!=null){
+            log.info("查到对应的值，直接更新!");
+            return updatePictureSort(pictureSortVo);
+        }
+        pictureSort = new PictureSort();
+        pictureSort.setName(pictureSortVo.getName());
+        pictureSort.setSort(pictureSortVo.getSort());
+        if (!StringUtils.isEmpty(pictureSortVo.getFileUid())){
+            pictureSort.setFileUid(pictureSortVo.getFileUid());
+        }
+        return pictureSortDao.insert(pictureSort);
+    }
+
+    @Override
+    public ResVo<String> deletePictureSort(String uid) {
+        // 先查找该分类下是否还有图片
+        LambdaQueryWrapper<Picture> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(Picture::getPictureSortUid,uid);
+        queryWrapper.eq(Picture::getStatus,EStatusEnum.ENABLE.getValue());
+        Long cnt = pictureDao.selectCount(queryWrapper);
+        if (cnt>0){
+            return ResVo.buildErrRes("该分类下还有图片！");
+        }
+        LambdaQueryWrapper<PictureSort> delQueryWrapper = new LambdaQueryWrapper<>();
+        delQueryWrapper.eq(PictureSort::getUid,uid);
+        delQueryWrapper.eq(PictureSort::getStatus,EStatusEnum.ENABLE.getValue());
+        PictureSort pictureSort = pictureSortDao.selectOne(delQueryWrapper);
+        int i = 0;
+        if (pictureSort!=null){
+            pictureSort.setStatus(EStatusEnum.DISABLE.getValue());
+            i = pictureSortDao.updateById(pictureSort);
+        }
+        return i>0? ResVo.buildSuccessMsgRes("删除成功!"):ResVo.buildErrRes("删除失败!");
     }
 }
 
