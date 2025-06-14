@@ -22,8 +22,8 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="ElasticSearch" options="-parameters" />
-      <module name="rabbitmq-fanout-consumer" options="-parameters" />
-      <module name="rabbitmq-fanout-producer" options="-parameters" />
+      <module name="rabbitmq-fanout-consumer" options="" />
+      <module name="rabbitmq-fanout-producer" options="" />
       <module name="rabbitmq-simpledemo" options="-parameters" />
       <module name="wj-project-common" options="" />
       <module name="wj-project-service" options="" />

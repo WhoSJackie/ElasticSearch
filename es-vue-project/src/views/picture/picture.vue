@@ -298,7 +298,7 @@ export default {
             that.tableData = resp.data.records
           }
         } else {
-          this.$commonUtil.message.error(resp.message)
+          this.$commonUtil.message.error(resp.msg)
         }
       });
     },

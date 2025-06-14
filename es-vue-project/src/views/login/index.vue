@@ -1,56 +1,110 @@
 <template>
   <div class="login-container">
-    <el-form
-      ref="loginForm"
-      :model="loginForm"
-      :rules="loginRules"
-      class="login-form"
-      auto-complete="on"
-      label-position="left"
-    >
-      <h3 class="title">{{webSiteName}}后台管理系统</h3>
-      <el-form-item prop="username">
+    <el-tabs v-model="tabName" @tab-click="changeVCodeStatus()">
+      <el-tab-pane label="密码登录" name="pass">
+        <el-form
+          ref="loginForm"
+          :model="loginForm"
+          :rules="loginRules"
+          class="login-form"
+          auto-complete="on"
+          label-position="left"
+        >
+          <h3 class="title">{{webSiteName}}后台管理系统</h3>
+          <el-form-item prop="username">
         <span class="svg-container svg-container_login">
           <svg-icon icon-class="user"/>
         </span>
-        <el-input
-          v-model="loginForm.username"
-          ref="userNameInput"
-          name="username"
-          type="text"
-          auto-complete="on"
-          placeholder="username"
-          @keyup.enter.native="handleLogin"
-        />
-      </el-form-item>
-      <el-form-item prop="password">
+            <el-input
+              v-model="loginForm.username"
+              ref="userNameInput"
+              name="username"
+              type="text"
+              auto-complete="on"
+              placeholder="username"
+              @keyup.enter.native="handleLogin"
+            />
+          </el-form-item>
+          <el-form-item prop="password">
         <span class="svg-container">
           <svg-icon icon-class="password"/>
         </span>
-        <el-input
-          :type="pwdType"
-          v-model="loginForm.password"
-          name="password"
-          auto-complete="on"
-          placeholder="password"
-          @keyup.enter.native="handleLogin"
-        />
-        <span class="show-pwd" @click="showPwd">
+            <el-input
+              :type="pwdType"
+              v-model="loginForm.password"
+              name="password"
+              auto-complete="on"
+              placeholder="password"
+              @keyup.enter.native="handleLogin"
+            />
+            <span class="show-pwd" @click="showPwd">
           <svg-icon icon-class="eye"/>
         </span>
-      </el-form-item>
+          </el-form-item>
 
-      <el-checkbox v-model="loginForm.rememberMeFlag" style="margin:0px 0px 25px 0px;"><span style="color: #eee">七天免登录</span></el-checkbox>
+          <el-checkbox v-model="loginForm.rememberMeFlag" style="margin:0px 0px 25px 0px;"><span style="color: #eee">七天免登录</span></el-checkbox>
 
-      <el-form-item>
-        <el-button
-          :loading="loading"
-          type="primary"
-          style="width:100%;"
-          @click.native.prevent="handleLogin"
-        >登 录</el-button>
-      </el-form-item>
-    </el-form>
+          <el-form-item>
+            <el-button
+              :loading="loading"
+              type="primary"
+              style="width:100%;"
+              @click.native.prevent="handleLogin"
+            >登 录</el-button>
+          </el-form-item>
+        </el-form>
+      </el-tab-pane>
+
+      <el-tab-pane label="验证码登录" name="verify">
+        <el-form
+          ref="loginForm"
+          :model="loginForm"
+          :rules="loginRules"
+          class="login-form"
+          auto-complete="on"
+          label-position="left"
+        >
+          <h3 class="title">{{webSiteName}}后台管理系统</h3>
+          <el-form-item prop="username">
+        <span class="svg-container svg-container_login">
+          <svg-icon icon-class="user"/>
+        </span>
+            <el-input
+              v-model="loginForm.username"
+              ref="userNameInput"
+              name="username"
+              type="text"
+              auto-complete="on"
+              placeholder="username"
+              @keyup.enter.native="handleLogin"
+            />
+          </el-form-item>
+          <el-form-item prop="password">
+        <span class="svg-container">
+          <svg-icon icon-class="password"/>
+        </span>
+            <el-input
+              v-model="loginForm.password"
+              name="password"
+              auto-complete="on"
+              placeholder="password"
+              @keyup.enter.native="handleLogin"
+            />
+            <el-button @click="sendValid" type="primary" size="small" v-if="countDown">验证码</el-button>
+            <el-button type="primary" size="small" v-if="!countDown">{{validCountdown}}s后重新获取</el-button>
+          </el-form-item>
+
+          <el-form-item>
+            <el-button
+              :loading="loading"
+              type="primary"
+              style="width:100%;"
+              @click.native.prevent="handleLogin"
+            >登 录</el-button>
+          </el-form-item>
+        </el-form>
+      </el-tab-pane>
+    </el-tabs>
 
     <!--引入粒子特效-->
     <vue-particles
@@ -78,6 +132,7 @@
 <script>
 // import { isvalidUsername } from "@/utils/validate";
 import {getWebSiteName} from '@/api/login'
+import {validCode} from '@/api/login'
 export default {
   name: "Login",
   data() {
@@ -101,6 +156,7 @@ export default {
         username: "",
         password: "",
         rememberMeFlag: false,
+        vCode:false
       },
       webSiteName: "",
       loginRules: {
@@ -112,6 +168,8 @@ export default {
       loading: false,
       pwdType: "password",
       redirect: undefined,
+      tabName:'pass',
+      validCountdown:0
     };
   },
   watch: {
@@ -165,6 +223,7 @@ export default {
                 this.$router.push({ path: this.redirect || "/" });
               } else {
                 this.$message.error(resp.msg);
+                this.validCountdown = 60;
               }
               this.loading = false;
             })
@@ -176,6 +235,40 @@ export default {
           return false;
         }
       });
+    },
+    sendValid(){
+      if (this.loginForm.username==undefined || this.loginForm.username.trim()=='') {
+        this.$commonUtil.message.error("邮箱不能为空！")
+        return;
+      }
+      let param={
+        toEmail:this.loginForm.username
+      }
+      validCode(param).then(response=>{
+        let resp = response.data;
+          if (resp.status==this.$ECode.SUCCESS){
+             this.$commonUtil.message.info("发送成功！");
+             this.validCountdown = 60;
+          }else{
+            this.$commonUtil.message.info(resp.msg)
+          }
+      }).catch(() => {
+        this.$commonUtil.message.info("发送失败！")
+      });
+    },
+    changeVCodeStatus(){
+      if (this.tabName == 'pass'){
+        this.loginForm.vCode = false;
+      } else{
+        this.loginForm.vCode = true;
+      }
+    },
+    countDown(){
+      while (this.validCountdown<=60 && this.validCountdown>0) {
+        this.validCountdown--;
+        return false;
+      }
+      return true;
     }
   }
 };
@@ -224,7 +317,7 @@ $light_gray: #eee;
   width: 100%;
   background-color: $bg;
   .login-form {
-    position: absolute;
+    //position: absolute;
     left: 0;
     right: 0;
     width: 520px;

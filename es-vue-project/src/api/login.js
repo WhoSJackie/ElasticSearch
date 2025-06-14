@@ -24,6 +24,14 @@ export function getInfo(params){
   })
 }
 
+export function validCode(params){
+  return request({
+    url: '/api/auth/validCode',
+    method: 'get',
+    params: params
+  })
+}
+
 
 
 

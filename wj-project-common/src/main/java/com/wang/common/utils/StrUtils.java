@@ -2,11 +2,12 @@ package com.wang.common.utils;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.core.io.UrlResource;
+import org.springframework.core.io.support.PropertiesLoaderUtils;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.io.IOException;
+import java.net.URL;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -28,7 +29,21 @@ public class StrUtils {
         return Arrays.stream(val.split(code)).collect(Collectors.toList());
     }
 
-
+    public static void main(String[] args) throws IOException {
+        // todo:测试spring.factories
+        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+        Enumeration<URL> resources = classLoader.getResources("META-INF/spring.factories");
+        while (resources.hasMoreElements()){
+            URL url = resources.nextElement();
+            UrlResource resource = new UrlResource(url);
+            Properties properties = PropertiesLoaderUtils.loadProperties(resource);
+            for (Map.Entry<Object, Object> entry : properties.entrySet()) {
+                System.out.println(entry.getKey());
+                System.out.println("*************");
+                System.out.println(entry.getValue());
+            }
+        }
+    }
 
 
 

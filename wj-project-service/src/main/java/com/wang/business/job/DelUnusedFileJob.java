@@ -10,6 +10,7 @@ import com.wang.common.object.vo.ResVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.support.SpringFactoriesLoader;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -30,8 +31,9 @@ public class DelUnusedFileJob {
 
     @Value("${file.uploadPath}")
     private String uploadPath;
-    @Scheduled(cron = "0 0 15 5 * ?")
+    @Scheduled(cron = "0 0 15-16 5 * ?")
     public void delTask(){
+        log.info("开始删除文件任务...");
         // 仅删除未关联picture的文件，软删除的不管
         List<Picture> pictureList = pictureService.selectAllPic();
         if (CollectionUtils.isEmpty(pictureList)){

@@ -8,6 +8,8 @@
         <option value="$PROJECT_DIR$/es-api/pom.xml" />
         <option value="$PROJECT_DIR$/es-jd-practice/pom.xml" />
         <option value="$PROJECT_DIR$/es-common/pom.xml" />
+        <option value="$PROJECT_DIR$/rabbitmq-fanout-consumer/pom.xml" />
+        <option value="$PROJECT_DIR$/rabbitmq-fanout-producer/pom.xml" />
       </list>
     </option>
   </component>

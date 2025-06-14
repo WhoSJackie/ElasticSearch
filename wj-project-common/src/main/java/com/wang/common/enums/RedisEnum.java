@@ -10,7 +10,8 @@ public enum RedisEnum {
     LOGIN_LIMIT("LOGIN_LIMIT%s%s"),
     LOGIN_TOKEN_KEY("LOGIN_TOKEN_KEY%s%s"),
     LOGIN_UUID_KEY("LOGIN_UUID_KEY%s%s"),
-    IP_ADDRESS("IP_ADDRESS%s%s")
+    IP_ADDRESS("IP_ADDRESS%s%s"),
+    LOGIN_VALID_CODE("LOGIN_VALID_CODE%s%s")
     ;
 
     private String value;
@@ -18,6 +19,7 @@ public enum RedisEnum {
     public String getRedisKey(Object... param){
         return String.format(value,param);
     }
+
 
 
 }

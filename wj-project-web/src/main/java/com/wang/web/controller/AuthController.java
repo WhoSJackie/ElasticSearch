@@ -3,12 +3,10 @@ package com.wang.web.controller;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.wang.business.mysqldao.UserDao;
-import com.wang.business.service.AdminService;
-import com.wang.business.service.CategoryMenuService;
-import com.wang.business.service.RoleService;
-import com.wang.business.service.SystemConfigService;
+import com.wang.business.service.*;
 import com.wang.common.constants.Constants;
 import com.wang.common.constants.RedisConst;
+import com.wang.common.enums.RedisEnum;
 import com.wang.common.enums.StatusEnum;
 import com.wang.common.feign.FileFeignClient;
 import com.wang.common.jwt.Audience;
@@ -74,6 +72,9 @@ public class AuthController {
     @Autowired
     private FileFeignClient fileFeignClient;
 
+    @Autowired
+    private AuthService authService;
+
 
 //    @RequestMapping("login")
 //    public ResVo<String> userLogin(@RequestBody UserVo userVo){
@@ -133,19 +134,19 @@ public class AuthController {
     public ResVo<LoginVo> loginApi(HttpServletRequest request,
                                    @RequestParam("username") String username,
                                    @RequestParam("password") String password,
-                                   @RequestParam("rememberMeFlag") boolean rememberMeFlag
+                                   @RequestParam("rememberMeFlag") boolean rememberMeFlag,
+                                   @RequestParam("vCode") boolean vCode
                            ){
         if (StringUtils.isEmpty(username)|| StringUtils.isEmpty(password)){
             return  ResVo.buildErrRes("用户名和密码不能为空");
         }
         String ipAddr = IpUtils.getIpAddr(request);
         String loginLimit = redisUtil.get(RedisConst.LOGIN_LIMIT+ RedisConst.SEGMENTATION+ipAddr);
-        // todo:后面放开
-//        if (!StringUtils.isEmpty(loginLimit)){
-//            if (Integer.parseInt(loginLimit)>5){
-//                return ResVo.buildErrRes("密码输入错误超过五次");
-//            }
-//        }
+        if (!StringUtils.isEmpty(loginLimit)){
+            if (Integer.parseInt(loginLimit)>5){
+                return ResVo.buildErrRes("密码输入错误超过五次");
+            }
+        }
         boolean emailFlag = CheckUtils.checkEmail(username);
         boolean phoneFlag = CheckUtils.checkPhoneNumber(username);
         // 查询用户
@@ -167,14 +168,21 @@ public class AuthController {
             log.info("用户不存在");
             return ResVo.buildErrRes(String.format("用户名或者密码输错%d次之后，系统将锁定30分钟...",setLoginErrLock(request)));
         }
-        //对密码进行加盐加密验证，采用SHA-256 + 随机盐【动态加盐】 + 密钥对密码进行加密
-        // 匹配时，将输入的明文密码进行相同的hash运算，与数据库的密码hash值进行比对
-        PasswordEncoder encoder = new BCryptPasswordEncoder();
-        boolean passFlag = encoder.matches(password,admin.getPassWord());
-        // 密码错误
-        if (!passFlag){
-            log.info("密码错误");
-            return ResVo.buildErrRes(String.format("用户名或者密码输错%d次之后，系统将锁定30分钟...",setLoginErrLock(request)));
+        if (!vCode){
+            //对密码进行加盐加密验证，采用SHA-256 + 随机盐【动态加盐】 + 密钥对密码进行加密
+            // 匹配时，将输入的明文密码进行相同的hash运算，与数据库的密码hash值进行比对
+            PasswordEncoder encoder = new BCryptPasswordEncoder();
+            boolean passFlag = encoder.matches(password,admin.getPassWord());
+            // 密码错误
+            if (!passFlag){
+                log.info("密码错误");
+                return ResVo.buildErrRes(String.format("用户名或者密码输错%d次之后，系统将锁定30分钟...",setLoginErrLock(request)));
+            }
+        } else{
+            // 使用验证码
+            String s = redisUtil.get(RedisEnum.LOGIN_VALID_CODE.getRedisKey(RedisConst.SEGMENTATION, username));
+            if (StringUtils.isEmpty(s)) return ResVo.buildErrRes("验证码失效，请60s后重新获取!");
+            if (!s.equals(password)) return ResVo.buildErrRes("验证码错误，请重新输入!");
         }
 
         List<String> roles = new ArrayList<>(Arrays.asList(admin.getRoleUid().split(",")));
@@ -274,6 +282,15 @@ public class AuthController {
         infoVo.setRoles(Arrays.asList(role));
         infoVo.setToken(token);
         return ResVo.buildSuccessRes(infoVo);
+    }
+
+    @GetMapping("validCode")
+    public ResVo<String> getValidCode(@RequestParam("toEmail") String toEmail){
+        if (!CheckUtils.checkEmail(toEmail)){
+            return ResVo.buildErrRes("邮箱格式错误!");
+        }
+        authService.sendValidCodeByEmail(toEmail);
+        return ResVo.buildSuccessMsgRes("发送邮件成功，请等待查收!");
     }
 
 }

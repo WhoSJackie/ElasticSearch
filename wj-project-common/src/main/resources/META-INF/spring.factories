@@ -1,0 +1,3 @@
+com.zzc.service.HelloService=\
+com.zzc.service.impl.HelloServiceImpl1,\
+com.zzc.service.impl.HelloServiceImpl2

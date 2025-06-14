@@ -44,13 +44,12 @@ export const constantRouterMap = [
         component: () => import('@/views/blog/blog'),
         meta: { title: '博客管理', icon: 'edit' }
       },
-      // todo:后续添加
-      // {
-      //   path: 'blogTag',
-      //   name: '标签管理',
-      //   component: () => import('@/views/blog/blogTag'),
-      //   meta: { title: '标签管理', icon: 'tag' }
-      // },
+      {
+        path: 'blogTag',
+        name: '标签管理',
+        component: () => import('@/views/blog/blogTag'),
+        meta: { title: '标签管理', icon: 'tag' }
+      },
       // {
       //   path: 'blogSort',
       //   name: '分类管理',

@@ -64,7 +64,7 @@ public class JwtAuthTokenFilter extends OncePerRequestFilter {
             OnlineAdmin onlineAdmin = JsonUtil.parseJson(onlineAdminStr, OnlineAdmin.class);
             if (onlineAdmin!=null && !jwtTokenUtil.isExpiration(token,audience.getBase64Secret())){
                 // 获取过期时间，计算存活时间，和token刷新时间比较，如果存活时间小于刷新时间，则进行token的更新。
-                // 猜想应该是在请求量大的情况下，为了token不频繁过期。
+                // 参考双token刷新机制: https://blog.csdn.net/a704397849/article/details/90216739
                 Date expiresDate = jwtTokenUtil.getExpiration(token,audience.getBase64Secret());
                 Date now = new Date(System.currentTimeMillis());
                 Long aliveSeconds = DateUtils.getSecondBetweenTwo(expiresDate, now);

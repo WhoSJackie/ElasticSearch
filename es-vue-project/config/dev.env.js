@@ -13,7 +13,7 @@ module.exports = merge(prodEnv, {
   Search_API: '"http://localhost:8089/mogu-search"',
   Spider_API: '"http://localhost:8089/mogu-spider"',
   FILE_API: '"http://localhost:8001/"',
-  BLOG_WEB_URL: '"http://localhost:9527"',
+  BLOG_WEB_URL: '"http://localhost:8089/"',
   SOLR_API: '"http://localhost:8080/solr"',
   ELASTIC_SEARCH: '"http://localhost:5601"',
 })

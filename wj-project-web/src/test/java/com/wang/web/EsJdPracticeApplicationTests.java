@@ -14,6 +14,7 @@ import com.wang.common.object.entity.test.SysDictItemPojo;
 import com.wang.common.object.entity.oracle.SysDictValuePojo;
 import com.wang.business.service.*;
 import com.wang.common.utils.RedisUtil;
+import com.wang.web.controller.AuthController;
 import org.apache.lucene.search.similarities.Lambda;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,6 +56,12 @@ class EsJdPracticeApplicationTests {
 
     @Autowired
     JwtTokenUtil jwtTokenUtil;
+
+    @Autowired
+    AuthController authController;
+
+    @Autowired
+    AuthService authService;
 
     @Test
     void contextLoads() {
@@ -160,6 +167,11 @@ class EsJdPracticeApplicationTests {
         System.out.println(token);
     }
 
+    @Test
+    public void testGetEmail(){
+//        authController.getValidCode("whosjackie@163.com");
+        authService.sendValidCodeByEmail("1943548015@qq.com");
+    }
 
 
 }

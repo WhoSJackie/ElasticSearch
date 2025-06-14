@@ -40,12 +40,14 @@ const user = {
     Login({ commit }, userInfo) {
       const username = userInfo.username.trim()
       const password = userInfo.password.trim()
-      const rememberMeFlag = userInfo.rememberMeFlag
+      const rememberMeFlag = userInfo.rememberMeFlag;
+      const vCode = userInfo.vCode;
       return new Promise((resolve, reject) => {
         let params = new URLSearchParams()
         params.append('username', username)
         params.append('password', password)
         params.append('rememberMeFlag', rememberMeFlag)
+        params.append('vCode', vCode)
         login(params).then(response => {
           const data = response.data.data;
           // 向cookie中设置token
