@@ -23,6 +23,7 @@
 <!--        <module>rabbitmq-fanout-consumer</module>-->
         <module>wj-project-web</module>
         <module>wj-project-file</module>
+        <module>wj-project-ms</module>
     </modules>
 
     <properties>

@@ -50,12 +50,12 @@ export const constantRouterMap = [
         component: () => import('@/views/blog/blogTag'),
         meta: { title: '标签管理', icon: 'tag' }
       },
-      // {
-      //   path: 'blogSort',
-      //   name: '分类管理',
-      //   component: () => import('@/views/blog/blogSort'),
-      //   meta: { title: '分类管理', icon: 'sort' }
-      // },
+      {
+        path: 'blogSort',
+        name: '分类管理',
+        component: () => import('@/views/blog/blogSort'),
+        meta: { title: '分类管理', icon: 'sort' }
+      },
       // {
       //   path: 'blogRecommend',
       //   name: '推荐管理',

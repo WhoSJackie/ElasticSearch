@@ -8,11 +8,14 @@ import org.springframework.core.io.support.PropertiesLoaderUtils;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @Slf4j
 public class StrUtils {
 
+    private static final Pattern UPPER_WORD = Pattern.compile("[A-Z]");
     public static String getUUID(){
         String s = UUID.randomUUID().toString().replace("-", "");
         log.info("UUID 调试日志");
@@ -27,6 +30,17 @@ public class StrUtils {
         List<String> res = new ArrayList<>();
         if (StrUtils.isEmpty(val)) return res;
         return Arrays.stream(val.split(code)).collect(Collectors.toList());
+    }
+
+    public static StringBuffer underlineReplace(StringBuffer str){
+        StringBuffer sb = new StringBuffer(str);
+        Matcher matcher = UPPER_WORD.matcher(str);
+        if (matcher.find()){
+            sb = new StringBuffer();
+            matcher.appendReplacement(sb,"_"+matcher.group(0).toLowerCase());
+            matcher.appendTail(sb);
+        }
+        return sb;
     }
 
     public static void main(String[] args) throws IOException {

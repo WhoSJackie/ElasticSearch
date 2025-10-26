@@ -32,6 +32,14 @@ export function validCode(params){
   })
 }
 
+export function logout(params) {
+  return request({
+    url: '/api/auth/logout',
+    method: 'get',
+    params: params
+  })
+}
+
 
 
 

@@ -12,4 +12,8 @@ public interface BlogSortService {
 
     IPage<BlogSort> getPageSortList(BlogSortVo blogSortVo);
 
+    Boolean addSortList(BlogSortVo blogSortVo);
+
+    Boolean updateSortList(BlogSortVo blogSortVo);
+
 }

@@ -21,10 +21,26 @@ import com.wang.common.utils.StrUtils;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.aop.framework.AopContext;
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.DisposableBean;
+import org.springframework.beans.factory.ListableBeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
+import org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory;
+import org.springframework.beans.factory.support.AbstractBeanFactory;
+import org.springframework.beans.factory.support.BeanDefinitionRegistry;
+import org.springframework.beans.factory.support.DefaultListableBeanFactory;
+import org.springframework.context.support.AbstractApplicationContext;
+import org.springframework.context.support.AbstractXmlApplicationContext;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.DefaultResourceLoader;
+import org.springframework.core.io.UrlResource;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.util.ClassUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -292,5 +308,17 @@ public class AuthController {
         authService.sendValidCodeByEmail(toEmail);
         return ResVo.buildSuccessMsgRes("发送邮件成功，请等待查收!");
     }
+
+    @GetMapping("logout")
+    public ResVo<String> logout(@RequestParam("token") String token){
+        if (StringUtils.isEmpty(token)){
+            return ResVo.buildErrRes("token不存在!");
+        }
+        redisUtil.set(RedisEnum.LOGIN_TOKEN_KEY.getRedisKey(RedisConst.SEGMENTATION,token),"");
+        return ResVo.buildSuccessMsgRes("退出登录!");
+    }
+
+
+
 
 }

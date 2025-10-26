@@ -16,6 +16,16 @@ public class BlogSortVo extends BaseVo<BlogSortVo> {
      */
     private String sortName;
 
+    /**
+     * 分类介绍
+     */
+    private String content;
+
+    /**
+     * 排序
+     */
+    private Integer sort;
+
 
     /**
      * OrderBy排序字段（desc: 降序）

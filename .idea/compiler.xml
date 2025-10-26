@@ -9,6 +9,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="wj-project-common" />
         <module name="wj-project-service" />
+        <module name="wj-project-ms" />
         <module name="wj-project-web" />
         <module name="wj-project-file" />
       </profile>

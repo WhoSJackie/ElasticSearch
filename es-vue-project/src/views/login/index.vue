@@ -90,8 +90,8 @@
               placeholder="password"
               @keyup.enter.native="handleLogin"
             />
-            <el-button @click="sendValid" type="primary" size="small" v-if="countDown">验证码</el-button>
-            <el-button type="primary" size="small" v-if="!countDown">{{validCountdown}}s后重新获取</el-button>
+            <el-button @click="sendValid" type="primary" size="small" v-if="this.validCountdown<=0 || this.validCountdown>60">验证码</el-button>
+            <el-button type="primary" size="small" v-if="this.validCountdown<=60 && this.validCountdown>0" disabled="true">{{validCountdown}}s后重新获取</el-button>
           </el-form-item>
 
           <el-form-item>
@@ -182,12 +182,13 @@ export default {
   },
   mounted() {
     // mounted钩子函数，dom已经渲染完毕，可以直接获取到dom对象进行聚焦
-    this.$refs.userNameInput.focus()
+    this.$refs.userNameInput.focus();
+    this.setValidCountDown();
   },
   created() {
     // created，dom还未开始渲染，因此需要使用this.$nextTick 将其放置在下一个dom渲染操作时执行
     // this.$refs.userNameInput.focus()
-    this.getWebName()
+    this.getWebName();
   },
   methods: {
     getWebName: function () {
@@ -218,12 +219,12 @@ export default {
           this.$store
             .dispatch("Login", this.loginForm)
             .then(response => {
+              console.log(response);
               let resp = response.data;
               if (resp.code == this.$ECode.SUCCESS) {
                 this.$router.push({ path: this.redirect || "/" });
               } else {
-                this.$message.error(resp.msg);
-                this.validCountdown = 60;
+                this.$commonUtil.message.error(resp.msg);
               }
               this.loading = false;
             })
@@ -246,14 +247,15 @@ export default {
       }
       validCode(param).then(response=>{
         let resp = response.data;
-          if (resp.status==this.$ECode.SUCCESS){
+          if (resp.code==this.$ECode.SUCCESS){
              this.$commonUtil.message.info("发送成功！");
-             this.validCountdown = 60;
-          }else{
-            this.$commonUtil.message.info(resp.msg)
+            this.validCountdown = 60;
+            this.countDown();
+          } else{
+            this.$commonUtil.message.warning(resp.msg);
           }
       }).catch(() => {
-        this.$commonUtil.message.info("发送失败！")
+        this.$commonUtil.message.error("发送失败！")
       });
     },
     changeVCodeStatus(){
@@ -264,11 +266,24 @@ export default {
       }
     },
     countDown(){
-      while (this.validCountdown<=60 && this.validCountdown>0) {
-        this.validCountdown--;
-        return false;
-      }
-      return true;
+      let timeId = setInterval(()=>{
+        if (this.validCountdown<=60 && this.validCountdown>0) {
+          this.validCountdown--;
+          // 实时记录倒计时,以免刷新消失
+          localStorage.setItem("validCodeTime",this.validCountdown);
+        }
+        else{
+          localStorage.removeItem("validCodeTime");
+          clearInterval(timeId);
+        }
+      },1000)
+    },
+    // 如果倒计时不为0，则调用倒计时函数。
+    setValidCountDown(){
+      if (window.LS.get("validCodeTime")){
+        this.validCountdown = window.LS.get("validCodeTime");
+        this.countDown();
+      } else this.validCountdown = 0;
     }
   }
 };

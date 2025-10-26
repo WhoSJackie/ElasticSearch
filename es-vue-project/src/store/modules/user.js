@@ -5,8 +5,7 @@ import {getCookie, setCookie} from "../../utils/cookieUtils";
 
 const user = {
   state: {
-    // todo: token: getToken(),
-    token: '',
+    token: getToken(),
     name: '',
     avatar: '',
     roles: [],
@@ -103,7 +102,11 @@ const user = {
     // 登出
     LogOut({ commit, state }) {
       return new Promise((resolve, reject) => {
-        logout(state.token).then(() => {
+        console.log("token->",state.token);
+        let params = {
+          token:state.token
+        }
+        logout(params).then(() => {
           commit('SET_TOKEN', '')
           commit('SET_ROLES', [])
           removeToken()

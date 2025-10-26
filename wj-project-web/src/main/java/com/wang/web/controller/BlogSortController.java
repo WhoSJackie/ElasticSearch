@@ -25,13 +25,30 @@ public class BlogSortController {
     @Autowired
     private BlogSortService blogSortService;
 
-
     @PostMapping("/getPageList")
     @ApiOperation(value = "获取博客分类列表", notes = "获取博客分类列表", response = ResVo.class)
     public ResVo<IPage<BlogSort>> getBlogSortList(@RequestBody BlogSortVo blogSortVo){
         IPage<BlogSort> blogSortIPage = blogSortService.getPageSortList(blogSortVo);
         return ResVo.buildSuccessRes(blogSortIPage);
     }
+
+    @PostMapping("/addBlogSortList")
+    @ApiOperation(value = "新增博客分类", notes = "新增博客分类", response = ResVo.class)
+    public ResVo<String> addBlogSortList(@RequestBody BlogSortVo blogSortVo){
+        Boolean flag = blogSortService.addSortList(blogSortVo);
+        if (flag) return ResVo.buildSuccessMsgRes("添加成功!");
+        else return ResVo.buildErrRes("添加失败！");
+    }
+
+    @PostMapping("/editBlogSortList")
+    @ApiOperation(value = "修改博客分类", notes = "修改博客分类", response = ResVo.class)
+    public ResVo<String> editBlogSortList(@RequestBody BlogSortVo blogSortVo){
+        Boolean flag = blogSortService.updateSortList(blogSortVo);
+        if (flag) return ResVo.buildSuccessMsgRes("修改成功!");
+        else return ResVo.buildErrRes("修改失败！");
+    }
+
+
 
 
 
