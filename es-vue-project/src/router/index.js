@@ -100,6 +100,12 @@ export const constantRouterMap = [
         name: '图片管理',
         component: () => import('@/views/picture/picture'),
         meta: { title: '图片管理', icon: 'edit' }
+      },
+      {
+        path: 'download',
+        name: '下载管理',
+        component: () => import('@/views/picture/download'),
+        meta: { title: '下载管理', icon: 'edit' }
       }
       ]
   }
